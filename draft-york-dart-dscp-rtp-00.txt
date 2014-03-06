@@ -5,7 +5,7 @@
 DiffServ Applied to Real-time Transports                         D. York
 Internet-Draft                                          Internet Society
 Intended status: Informational                               C. Jennings
-Expires: September 07, 2014                                Cisco Systems
+Expires: September 07, 2014                                        Cisco
                                                           March 06, 2014
 
 
@@ -227,14 +227,14 @@ Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
 
 
    Cullen Jennings
-   Cisco Systems
+   Cisco
+   170 West Tasman Drive
+   MS: SJC-21/2
+   San Jose, CA  95134
+   USA
 
+   Phone: +1 408 421-9990
    Email: fluffy@cisco.com
-
-
-
-
-
 
 
 
