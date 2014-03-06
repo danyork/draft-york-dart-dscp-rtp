@@ -26,7 +26,7 @@
     Differentiated Services (DiffServ) With Real-time Communications Protocols</title>
 
 
-    <author fullname="Dan York" initials="D." surname="York">
+    <author fullname="Dan York" initials="D." surname="York" role="editor">
       <organization>Internet Society</organization>
       <address>
         <postal>
@@ -75,7 +75,7 @@
     </author>
 
     
-    <date year="2014" />
+    <date year="2014" month="march" day="6" />
 
     <area>RAI</area>
 
@@ -148,16 +148,48 @@ environments where the DSCP markings are removed or remarked.</t>
     <section anchor="RTP" title="Background on Usage of RTP">
       <t>(This section will provide explain about the needs of RTP.</t>
 
+<!--
+
+Explain:
+
+RTP has timing information in so two differnt flows, one for audio, and one for video, can be later syncronized and played at same time even if they got significnatly reorded. 
+
+Mention of jitter buffers. 
+
+Mention data channel as well as RTP
+
+-->
+
+
+
     </section>
+
+    <section anchor="Recomendations" title="Recomendations">
+      <t>  TODO </t>
+
+<!--
+Warning about CS1 reorded 
+-->
+
+
+    </section>
+
     <section anchor="RTCWEB" title="RTCWEB Examples">
       <t>(This section will provide examples of DiffServ/DSCP limitations with
       regard to RTCWEB.)</t>
+
+<!--
+
+Explain why the we can't do local network configuraiton of valuses used 
+
+-->
+
 
     </section>   
     
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>This document is the result of many conversations that have occurred within
-      multiple RAI and TRANSPORT area working groups.</t>
+      multiple RAI and TRANSPORT area working groups. Thanks for review and text from James Polk, TODO. </t>
 
     </section>
 
@@ -168,6 +200,13 @@ environments where the DSCP markings are removed or remarked.</t>
 
     <section anchor="Security" title="Security Considerations">
       <t>(Need to understand if there are any security considerations to include.)</t>
+
+<!-- 
+
+Do we need to say anything about how munnging DSCP can mess things up ?
+
+
+-->
       
     </section>
   </middle>

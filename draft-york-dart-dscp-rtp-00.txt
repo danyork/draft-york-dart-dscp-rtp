@@ -2,13 +2,13 @@
 
 
 
-DiffServ Applied to Real-time Transports                         D. York
+DiffServ Applied to Real-time Transports                    D. York, Ed.
 Internet-Draft                                          Internet Society
 Intended status: Informational                                  D. Black
 Expires: September 07, 2014                                          EMC
                                                              C. Jennings
                                                                    Cisco
-                                                          March 06, 2014
+                                                           march 6, 2014
 
 
  Limitations of Using Differentiated Services (DiffServ) With Real-time
@@ -55,7 +55,7 @@ Copyright Notice
 
 York, et al.           Expires September 07, 2014               [Page 1]
 
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  March 2014
+Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
 
 
    to this document.  Code Components extracted from this document must
@@ -69,13 +69,14 @@ Table of Contents
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
    2.  Background on Usage of DiffServ . . . . . . . . . . . . . . .   2
    3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   3
-   4.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   3
-   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   3
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   3
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   4
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .   4
+   4.  Recomendations  . . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   3
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   3
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   4
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   4
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   4
 
 1.  Introduction
@@ -105,15 +106,15 @@ Table of Contents
    order packets necessitated the need for the development of a
    transport layer to handle both capabilities better.  The result was
    TCP.  There are now multiple transport protocols (i.e., TCP, UDP,
-   SCTP, etc.) that have various behaviors.  These behaviors are not the
 
 
 
 York, et al.           Expires September 07, 2014               [Page 2]
 
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  March 2014
+Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
 
 
+   SCTP, etc.) that have various behaviors.  These behaviors are not the
    same depending on the network circumstance a/each packet finds itself
    in as it traverses through the network.
 
@@ -141,41 +142,51 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  March 2014
 
    (This section will provide explain about the needs of RTP.
 
-4.  RTCWEB Examples
+4.  Recomendations
+
+   TODO
+
+5.  RTCWEB Examples
 
    (This section will provide examples of DiffServ/DSCP limitations with
    regard to RTCWEB.)
 
-5.  Acknowledgements
+6.  Acknowledgements
 
    This document is the result of many conversations that have occurred
-   within multiple RAI and TRANSPORT area working groups.
+   within multiple RAI and TRANSPORT area working groups.  Thanks for
+   review and text from James Polk, TODO.
 
-6.  IANA Considerations
 
-   This document includes no request to IANA.
 
-7.  Security Considerations
 
-   (Need to understand if there are any security considerations to
-   include.)
 
-8.  References
 
 
 
 
 York, et al.           Expires September 07, 2014               [Page 3]
 
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  March 2014
+Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
 
 
-8.1.  Normative References
+7.  IANA Considerations
+
+   This document includes no request to IANA.
+
+8.  Security Considerations
+
+   (Need to understand if there are any security considerations to
+   include.)
+
+9.  References
+
+9.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [RFC2474]  Nichols, K., Blake, S., Baker, F., and D. Black,
               "Definition of the Differentiated Services Field (DS
@@ -191,24 +202,13 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  March 2014
 
 Authors' Addresses
 
-   Dan York
+   Dan York (editor)
    Internet Society
    Keene, N.H.
    USA
 
    Phone: +1-802-735-1624
    Email: dyork@lodestar2.com
-
-
-   David Black
-   EMC
-   176 South Street
-   Hopkinton, MA  01748
-   USA
-
-   Phone: +1 508 293-7953
-   Email: david.black@emc.com
-
 
 
 
@@ -223,7 +223,17 @@ Authors' Addresses
 
 York, et al.           Expires September 07, 2014               [Page 4]
 
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  March 2014
+Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
+
+
+   David Black
+   EMC
+   176 South Street
+   Hopkinton, MA  01748
+   USA
+
+   Phone: +1 508 293-7953
+   Email: david.black@emc.com
 
 
    Cullen Jennings
@@ -235,16 +245,6 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  March 2014
 
    Phone: +1 408 421-9990
    Email: fluffy@cisco.com
-
-
-
-
-
-
-
-
-
-
 
 
 
