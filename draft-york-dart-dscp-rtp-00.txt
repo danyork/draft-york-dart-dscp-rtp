@@ -15,18 +15,11 @@ Expires: September 07, 2014                                        Cisco
 
 Abstract
 
-   Differentiated Services (DiffServ) and DiffServ code points (DSCP)
-   can be used in some situations to provide quality of service (QoS).
-   Packets with different markings can be reordered, which can cause
-   poor interaction with a transport protocol that is responsive to
-   reordering.  When Real-time Transport Protocol (RTP) streams or other
-   real-time media (sub-)flows are used with different DSCP values with
-   the same transport 5-tuple, there may be transport protocol
-   interactions.  There are also environments where the DSCP markings
-   are removed or remarked.
-
-   This document explains the limitations that exist with DiffServ when
-   used with RTP in general as well in specific RTCWeb cases.
+   This document explains the interaction between DiffServ, DiffServ
+   Code Points (DSCP) and real-time communication protocols such as the
+   Real-time Transport Protocol (RTP).  This document explains the
+   limitations that exist with DiffServ and DSCP when used with RTP in
+   general as well as in specific RTCTWEB cases.
 
 Status of This Memo
 
@@ -45,19 +38,6 @@ Status of This Memo
 
    This Internet-Draft will expire on September 07, 2014.
 
-
-
-
-
-
-
-
-
-York & Jennings        Expires September 07, 2014               [Page 1]
-
-Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
-
-
 Copyright Notice
 
    Copyright (c) 2014 IETF Trust and the persons identified as the
@@ -70,6 +50,14 @@ Copyright Notice
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
+
+
+
+York & Jennings        Expires September 07, 2014               [Page 1]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
+
+
    the Trust Legal Provisions and are provided without warranty as
    described in the Simplified BSD License.
 
@@ -77,12 +65,12 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
-   2.  Background on Usage of DiffServ . . . . . . . . . . . . . . .   3
+   2.  Background on Usage of DiffServ . . . . . . . . . . . . . . .   2
    3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   3
    4.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   3
-   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
+   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   3
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   4
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .   4
      8.2.  Informative References  . . . . . . . . . . . . . . . . .   4
@@ -105,15 +93,6 @@ Table of Contents
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in RFC 2119 [RFC2119].
 
-
-
-
-
-York & Jennings        Expires September 07, 2014               [Page 2]
-
-Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
-
-
 2.  Background on Usage of DiffServ
 
    Various transport protocols exist today for various reasons; mostly
@@ -127,6 +106,13 @@ Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
    SCTP, etc.)  that have various behaviors.  These behaviors are not
    the same depending on the network circumstance a/each packet finds
    itself in as it traverses through the network.
+
+
+
+York & Jennings        Expires September 07, 2014               [Page 2]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
+
 
    With the IP layer, and not part of the 5-tuple identifier, DiffServ
    code points (DSCP) can be used in situations to provide quality of
@@ -157,6 +143,20 @@ Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
    (This section will provide examples of DiffServ/DSCP limitations with
    regard to RTCWEB.)
 
+5.  Acknowledgements
+
+   This document is the result of many conversations that have occurred
+   within multiple RAI and TRANSPORT area working groups.
+
+6.  IANA Considerations
+
+   This document includes no request to IANA.
+
+7.  Security Considerations
+
+   (Need to understand if there are any security considerations to
+   include.)
+
 
 
 
@@ -169,19 +169,6 @@ York & Jennings        Expires September 07, 2014               [Page 3]
 
 Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
 
-
-5.  Acknowledgements
-
-   This document is the result of many conversations that have occurred
-   within multiple RAI and TRANSPORT area working groups.
-
-6.  IANA Considerations
-
-   This document includes no request to IANA.
-
-7.  Security Considerations
-
-   This document explains
 
 8.  References
 
@@ -215,17 +202,6 @@ Authors' Addresses
    Email: dyork@lodestar2.com
 
 
-
-
-
-
-
-
-York & Jennings        Expires September 07, 2014               [Page 4]
-
-Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
-
-
    Cullen Jennings
    Cisco
    170 West Tasman Drive
@@ -244,36 +220,4 @@ Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-York & Jennings        Expires September 07, 2014               [Page 5]
+York & Jennings        Expires September 07, 2014               [Page 4]

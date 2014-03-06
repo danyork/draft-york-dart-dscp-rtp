@@ -68,21 +68,19 @@
     <keyword>DiffServ,DSCP,RAI</keyword>
 
     <abstract>
-      <!-- Created abstract from DART charter. Needs to be simplified IMHO -->
-      <t>Differentiated Services (DiffServ) and DiffServ code points (DSCP) can be used
-in some situations to provide quality of service (QoS). Packets with different
-markings can be reordered, which can cause poor interaction with a transport
-protocol that is responsive to reordering. When Real-time Transport Protocol (RTP) 
-streams or other real-time media (sub-)flows are used with different DSCP values with 
-the same transport 5-tuple, there may be transport protocol interactions. There are also
-environments where the DSCP markings are removed or remarked.</t>
-    <t>This document explains the limitations that exist with
-DiffServ when used with RTP in general as well in specific RTCWeb cases.</t>
+      <t>This document explains the interaction between DiffServ, DiffServ Code Points
+      (DSCP) and real-time communication protocols such as the Real-time Transport Protocol 
+      (RTP).  This document explains the limitations that exist with DiffServ and DSCP
+      when used with RTP in general as well as in specific RTCTWEB cases.</t>
+      
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
+    
+      <!-- Initial intro text taken from the DART charter.  Needs to be improved. -->
+          
       <t>Differentiated Services (DiffServ) and DiffServ code points (DSCP) can be used
 in some situations to provide quality of service (QoS). Packets with different
 markings can be reordered, which can cause poor interaction with a transport
@@ -153,7 +151,8 @@ environments where the DSCP markings are removed or remarked.</t>
     </section>
 
     <section anchor="Security" title="Security Considerations">
-      <t>This document explains </t>
+      <t>(Need to understand if there are any security considerations to include.)</t>
+      
     </section>
   </middle>
 
