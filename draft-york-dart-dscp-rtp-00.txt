@@ -1,0 +1,279 @@
+
+
+
+
+DiffServ Applied to Real-time Transports                         D. York
+Internet-Draft                                          Internet Society
+Intended status: Informational                               C. Jennings
+Expires: September 07, 2014                                Cisco Systems
+                                                          March 06, 2014
+
+
+ Limitations of Using Differentiated Services (DiffServ) With Real-time
+                        Communications Protocols
+                      draft-york-dart-dscp-rtp-00
+
+Abstract
+
+   Differentiated Services (DiffServ) and DiffServ code points (DSCP)
+   can be used in some situations to provide quality of service (QoS).
+   Packets with different markings can be reordered, which can cause
+   poor interaction with a transport protocol that is responsive to
+   reordering.  When Real-time Transport Protocol (RTP) streams or other
+   real-time media (sub-)flows are used with different DSCP values with
+   the same transport 5-tuple, there may be transport protocol
+   interactions.  There are also environments where the DSCP markings
+   are removed or remarked.
+
+   This document explains the limitations that exist with DiffServ when
+   used with RTP in general as well in specific RTCWeb cases.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on September 07, 2014.
+
+
+
+
+
+
+
+
+
+York & Jennings        Expires September 07, 2014               [Page 1]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
+
+
+Copyright Notice
+
+   Copyright (c) 2014 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
+   2.  Background on Usage of DiffServ . . . . . . . . . . . . . . .   3
+   3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   3
+   4.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   4
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .   4
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   4
+
+1.  Introduction
+
+   Differentiated Services (DiffServ) and DiffServ code points (DSCP)
+   can be used in some situations to provide quality of service (QoS).
+   Packets with different markings can be reordered, which can cause
+   poor interaction with a transport protocol that is responsive to
+   reordering.  When RTP streams or other real-time media (sub-)flows
+   are used with different DSCP values with the same transport 5-tuple,
+   there may be transport protocol interactions.  There are also
+   environments where the DSCP markings are removed or remarked.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+
+
+
+
+York & Jennings        Expires September 07, 2014               [Page 2]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
+
+
+2.  Background on Usage of DiffServ
+
+   Various transport protocols exist today for various reasons; mostly
+   because there was a need for a behavior that the IP layer just could
+   not provide, or a behavior that another transport protocol didn't
+   have (at the time, in some cases).  For example, both a type of
+   congestion control and an ability to reorder at the receiver out of
+   order packets necessitated the need for the development of a
+   transport layer to handle both capabilities better.  The result was
+   TCP.  There are now multiple transport protocols (i.e., TCP, UDP,
+   SCTP, etc.)  that have various behaviors.  These behaviors are not
+   the same depending on the network circumstance a/each packet finds
+   itself in as it traverses through the network.
+
+   With the IP layer, and not part of the 5-tuple identifier, DiffServ
+   code points (DSCP) can be used in situations to provide quality of
+   service (QoS), but in fact it is a class of service (COS)
+   differentiation they provide.  These 64 different values are found
+   within the old TOS byte.  There is nothing in the DSCP field but
+   zeros most of the time (i.e., Best Effort).  As specified within RFC
+   2474 and 2475 is called a per hop behavior (PHB).  Hence most packets
+   receive a best effort PHB.  An important aspect of a PHB is that it
+   is just that, and a packet, and indirectly its user, needs to be
+   prepared to have its DSCP remarked to another value one or more
+   times, or any time it traverses a layer node.
+
+   With the desire to now explore other than best effort DSCP markings
+   of RTP streams or other real-time media (sub-)flows, certain
+   realities, say for example reordering of packets within a stream or
+   flow, not all transport protocols behave the same.  Some will have
+   their DSCP of a non-zero value set to zero by some router before the
+   destination, or another non-zero value that is different from the
+   packet that it was originally set to.
+
+3.  Background on Usage of RTP
+
+   (This section will provide explain about the needs of RTP.
+
+4.  RTCWEB Examples
+
+   (This section will provide examples of DiffServ/DSCP limitations with
+   regard to RTCWEB.)
+
+
+
+
+
+
+
+
+
+York & Jennings        Expires September 07, 2014               [Page 3]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
+
+
+5.  Acknowledgements
+
+   This document is the result of many conversations that have occurred
+   within multiple RAI and TRANSPORT area working groups.
+
+6.  IANA Considerations
+
+   This document includes no request to IANA.
+
+7.  Security Considerations
+
+   This document explains
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+8.2.  Informative References
+
+   [RFC2474]  Nichols, K., Blake, S., Baker, F., and D.L. Black,
+              "Definition of the Differentiated Services Field (DS
+              Field) in the IPv4 and IPv6 Headers", RFC 2474, December
+              1998.
+
+   [RFC2475]  Blake, S., Black, D.L., Carlson, M.A., Davies, E., Wang,
+              Z., and W. Weiss, "An Architecture for Differentiated
+              Services", RFC 2475, December 1998.
+
+   [RFC3260]  Grossman, D., "New Terminology and Clarifications for
+              Diffserv", RFC 3260, April 2002.
+
+Authors' Addresses
+
+   Dan York
+   Internet Society
+   Keene, N.H.
+   USA
+
+   Phone: +1-802-735-1624
+   Email: dyork@lodestar2.com
+
+
+
+
+
+
+
+
+York & Jennings        Expires September 07, 2014               [Page 4]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   March 2014
+
+
+   Cullen Jennings
+   Cisco Systems
+
+   Email: fluffy@cisco.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+York & Jennings        Expires September 07, 2014               [Page 5]

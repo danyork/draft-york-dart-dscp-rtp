@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+
+<!DOCTYPE rfc SYSTEM "http://xml.resource.org/authoring/rfc2629.dtd" [
+<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2474 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2474.xml">
+<!ENTITY RFC2475 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2475.xml">
+<!ENTITY RFC3260 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3260.xml">
+]>
+<?xml-stylesheet type='text/xsl'
+             href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
+<?rfc strict="yes" ?>
+<?rfc toc="yes"?>
+<?rfc tocdepth="4"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+
+<!-- Change the title here -->
+
+<rfc category="info" docName="draft-york-dart-dscp-rtp-00" ipr="trust200902">
+  
+  <front>
+
+    <title abbrev="Limitations of Using DiffServ And DSCP With RTP">Limitations of Using 
+    Differentiated Services (DiffServ) With Real-time Communications Protocols</title>
+
+
+    <author fullname="Dan York" initials="D."
+            surname="York">
+      <organization>Internet Society</organization>
+      <address>
+        <postal>
+          <street></street>
+          <city>Keene</city>
+          <region>N.H.</region>
+          <country>USA</country>
+        </postal>
+        <phone>+1-802-735-1624</phone>
+        <email>dyork@lodestar2.com</email>
+      </address>
+    </author>
+    
+    <author fullname="Cullen Jennings" initials="C."
+            surname="Jennings">
+      <organization>Cisco Systems</organization>
+      <address>
+        <postal>
+          <street></street>
+          <city></city>
+          <region></region>
+          <country></country>
+        </postal>
+        <phone></phone>
+        <email>fluffy@cisco.com</email>
+      </address>
+    </author>
+
+    <!-- Add David Black? -->
+    
+    <date year="2014" />
+
+    <area>RAI</area>
+
+    <workgroup>DiffServ Applied to Real-time Transports</workgroup>
+
+    <keyword>DiffServ,DSCP,RAI</keyword>
+
+    <abstract>
+      <!-- Created abstract from DART charter. Needs to be simplified IMHO -->
+      <t>Differentiated Services (DiffServ) and DiffServ code points (DSCP) can be used
+in some situations to provide quality of service (QoS). Packets with different
+markings can be reordered, which can cause poor interaction with a transport
+protocol that is responsive to reordering. When Real-time Transport Protocol (RTP) 
+streams or other real-time media (sub-)flows are used with different DSCP values with 
+the same transport 5-tuple, there may be transport protocol interactions. There are also
+environments where the DSCP markings are removed or remarked.</t>
+    <t>This document explains the limitations that exist with
+DiffServ when used with RTP in general as well in specific RTCWeb cases.</t>
+    </abstract>
+  </front>
+
+  <middle>
+    <section title="Introduction">
+      <t>Differentiated Services (DiffServ) and DiffServ code points (DSCP) can be used
+in some situations to provide quality of service (QoS). Packets with different
+markings can be reordered, which can cause poor interaction with a transport
+protocol that is responsive to reordering. When RTP streams or other real-time
+media (sub-)flows are used with different DSCP values with the same transport
+5-tuple, there may be transport protocol interactions. There are also
+environments where the DSCP markings are removed or remarked.</t>
+
+      <section title="Requirements Language">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+        document are to be interpreted as described in <xref
+        target="RFC2119">RFC 2119</xref>.</t>
+      </section>
+    </section>
+
+ 
+    <section anchor="DiffServ" title="Background on Usage of DiffServ">   
+      <!-- This text taken from James Polk's email to DISPATCH to serve as a base -->
+       
+      <t>Various transport protocols exist today for various reasons; mostly because there 
+      was a need for a behavior that the IP layer just could not provide, or a behavior 
+      that another transport protocol didn't have (at the time, in some cases). For 
+      example, both a type of congestion control and an ability to reorder at the 
+      receiver out of order packets necessitated the need for the development of a 
+      transport layer to handle both capabilities better. The result was TCP. There are 
+      now multiple transport protocols (i.e., TCP, UDP, SCTP, etc.) that have various 
+      behaviors. These behaviors are not the same depending on the network circumstance 
+      a/each packet finds itself in as it traverses through the network.</t>
+
+      <t>With the IP layer, and not part of the 5-tuple identifier, DiffServ code points 
+      (DSCP) can be used in situations to provide quality of service (QoS), but in fact 
+      it is a class of service (COS) differentiation they provide. These 64 different 
+      values are found within the old TOS byte. There is nothing in the DSCP field but 
+      zeros most of the time (i.e., Best Effort). As specified within RFC 2474 and 2475 
+      is called a per hop behavior (PHB). Hence most packets receive a best effort PHB. 
+      An important aspect of a PHB is that it is just that, and a packet, and indirectly 
+      its user, needs to be prepared to have its DSCP remarked to another value one or 
+      more times, or any time it traverses a layer node.</t>
+
+      <t>With the desire to now explore other than best effort DSCP markings of RTP 
+      streams or other real-time media (sub-)flows, certain realities, say for example 
+      reordering of packets within a stream or flow, not all transport protocols behave 
+      the same. Some will have their DSCP of a non-zero value set to zero by some router 
+      before the destination, or another non-zero value that is different from the packet 
+      that it was originally set to.</t>
+    </section>  
+    
+    <section anchor="RTP" title="Background on Usage of RTP">
+      <t>(This section will provide explain about the needs of RTP.</t>
+
+    </section>
+    <section anchor="RTCWEB" title="RTCWEB Examples">
+      <t>(This section will provide examples of DiffServ/DSCP limitations with
+      regard to RTCWEB.)</t>
+
+    </section>   
+    
+    <section anchor="Acknowledgements" title="Acknowledgements">
+      <t>This document is the result of many conversations that have occurred within
+      multiple RAI and TRANSPORT area working groups.</t>
+
+    </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This document includes no request to IANA.</t>
+
+    </section>
+
+    <section anchor="Security" title="Security Considerations">
+      <t>This document explains </t>
+    </section>
+  </middle>
+
+ 
+  <back>
+
+    <references title="Normative References">
+
+      &RFC2119;
+
+      
+    </references>
+
+    <references title="Informative References">
+
+      <!-- Need pointers to DiffServ-related RFCs and drafts. Three are listed here as 
+      examples, but the proper list should be identified. -->
+       
+       &RFC2474;
+       &RFC2475;       
+       &RFC3260; 
+       
+      <!-- Pointers to appropriate RTCWEB documents? -->
+      
+    </references>
+
+  
+  </back>
+</rfc>
