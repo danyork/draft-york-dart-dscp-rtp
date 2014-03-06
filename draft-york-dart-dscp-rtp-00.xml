@@ -40,6 +40,23 @@
       </address>
     </author>
     
+    <author fullname="David Black" initials="D." surname="Black">
+      <organization>EMC</organization>
+
+      <address>
+        <postal>
+          <street>176 South Street</street>
+          <city>Hopkinton</city>
+          <region>MA</region>
+          <code>01748</code>
+          <country>USA</country>
+        </postal>
+
+        <phone>+1 508 293-7953</phone>
+        <email>david.black@emc.com</email>
+      </address>
+    </author>
+
     <author fullname="Cullen Jennings" initials="C." surname="Jennings">
       <organization>Cisco</organization>
 
@@ -57,7 +74,6 @@
       </address>
     </author>
 
-    <!-- Add David Black? -->
     
     <date year="2014" />
 
