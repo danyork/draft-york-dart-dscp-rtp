@@ -26,8 +26,7 @@
     Differentiated Services (DiffServ) With Real-time Communications Protocols</title>
 
 
-    <author fullname="Dan York" initials="D."
-            surname="York">
+    <author fullname="Dan York" initials="D." surname="York">
       <organization>Internet Society</organization>
       <address>
         <postal>
@@ -41,17 +40,19 @@
       </address>
     </author>
     
-    <author fullname="Cullen Jennings" initials="C."
-            surname="Jennings">
-      <organization>Cisco Systems</organization>
+    <author fullname="Cullen Jennings" initials="C." surname="Jennings">
+      <organization>Cisco</organization>
+
       <address>
         <postal>
-          <street></street>
-          <city></city>
-          <region></region>
-          <country></country>
+          <street>170 West Tasman Drive</street>
+          <street>MS: SJC-21/2</street>
+          <city>San Jose</city>
+          <region>CA</region>
+          <code>95134</code>
+          <country>USA</country>
         </postal>
-        <phone></phone>
+        <phone>+1 408 421-9990</phone>
         <email>fluffy@cisco.com</email>
       </address>
     </author>
