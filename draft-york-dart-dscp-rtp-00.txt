@@ -5,10 +5,10 @@
 DiffServ Applied to Real-time Transports                    D. York, Ed.
 Internet-Draft                                          Internet Society
 Intended status: Informational                                  D. Black
-Expires: September 07, 2014                                          EMC
+Expires: October 03, 2014                                            EMC
                                                              C. Jennings
                                                                    Cisco
-                                                           march 6, 2014
+                                                           April 1, 2014
 
 
  Limitations of Using Differentiated Services (DiffServ) With Real-time
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 07, 2014.
+   This Internet-Draft will expire on October 03, 2014.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-York, et al.           Expires September 07, 2014               [Page 1]
+York, et al.            Expires October 03, 2014                [Page 1]
 
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   April 2014
 
 
    to this document.  Code Components extracted from this document must
@@ -67,17 +67,20 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
-   2.  Background on Usage of DiffServ . . . . . . . . . . . . . . .   2
-   3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   3
-   4.  Recomendations  . . . . . . . . . . . . . . . . . . . . . . .   3
-   5.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   3
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   3
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   4
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   4
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .   4
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   4
+   2.  Background  . . . . . . . . . . . . . . . . . . . . . . . . .   2
+     2.1.  Differentiated Services (DiffServ)  . . . . . . . . . . .   3
+     2.2.  DiffServ and Transport Protocols  . . . . . . . . . . . .   4
+   3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   5
+     3.1.  RTP, UDP, DiffServ and 5-tuples . . . . . . . . . . . . .   5
+   4.  Recomendations  . . . . . . . . . . . . . . . . . . . . . . .   5
+   5.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   6
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   6
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
 
@@ -96,7 +99,106 @@ Table of Contents
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in RFC 2119 [RFC2119].
 
-2.  Background on Usage of DiffServ
+2.  Background
+
+   [DLB: Describe protocol stack, from RTP streams (or other real-time
+   media (sub-)flows down to RTP, UDP, IP.  DSCP is in the IP header -
+   reference RFC 2474 for that and then RFC 2475 for Diffserv in
+   general.  Make sure to cite requirements that DSCPs be individually
+   treated by network nodes.]
+
+
+
+York, et al.            Expires October 03, 2014                [Page 2]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   April 2014
+
+
+2.1.  Differentiated Services (DiffServ)
+
+   [DLB: Next two paragraphs are copied from RFC 2475:]
+
+   This architecture is composed of a number of functional elements
+   implemented in network nodes, including a small set of per-hop
+   forwarding behaviors, packet classification functions, and traffic
+   conditioning functions including metering, marking, shaping, and
+   policing.  This architecture achieves scalability by implementing
+   complex classification and conditioning functions only at network
+   boundary nodes, and by applying per-hop behaviors to aggregates of
+   traffic which have been appropriately marked using the DS field in
+   the IPv4 or IPv6 headers [DSFIELD].  Per-hop behaviors are defined to
+   permit a reasonably granular means of allocating buffer and bandwidth
+   resources at each node among competing traffic streams.  Per-
+   application flow or per-customer forwarding state need not be
+   maintained within the core of the network.  A distinction is
+   maintained between:
+
+   o  the service provided to a traffic aggregate,
+
+   o  the conditioning functions and per-hop behaviors used to realize
+      services,
+
+   o  the DS field value (DS codepoint) used to mark packets to select a
+      per-hop behavior, and
+
+   o  the particular node implementation mechanisms which realize a per-
+      hop behavior.
+
+   Service provisioning and traffic conditioning policies are
+   sufficiently decoupled from the forwarding behaviors within the
+   network interior to permit implementation of a wide variety of
+   service behaviors, with room for future expansion.
+
+   [DLB: Next paragraph copied from RFC 2475, will need editing to make
+   terminology more accessible.]
+
+   A per-hop behavior (PHB) is a description of the externally
+   observable forwarding behavior of a DS node applied to a particular
+   DS behavior aggregate.  "Forwarding behavior" is a general concept in
+   this context.  For example, in the event that only one behavior
+   aggregate occupies a link, the observable forwarding behavior (i.e.,
+   loss, delay, jitter) will often depend only on the relative loading
+   of the link (i.e., in the event that the behavior assumes a work-
+   conserving scheduling discipline).  Useful behavioral distinctions
+   are mainly observed when multiple behavior aggregates compete for
+   buffer and bandwidth resources on a node.  The PHB is the means by
+
+
+
+York, et al.            Expires October 03, 2014                [Page 3]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   April 2014
+
+
+   which a node allocates resources to behavior aggregates, and it is on
+   top of this basic hop-by-hop resource allocation mechanism that
+   useful differentiated services may be constructed.
+
+   [DLB: Next two paragraphs copied from RFC 4594.]
+
+   While Differentiated Services is a general architecture that may be
+   used to implement a variety of services, three fundamental forwarding
+   behaviors have been defined and characterized for general use.  These
+   are basic Default Forwarding (DF) behavior for elastic traffic, the
+   Assured Forwarding (AF) behavior, and the Expedited Forwarding (EF)
+   behavior for real-time (inelastic) traffic.  The facts that four code
+   points are recommended for AF and that one code point is recommended
+   for EF are arbitrary choices, and the architecture allows any
+   reasonable number of AF and EF classes simultaneously.
+
+   The terms "elastic" and "real-time" are defined in [RFC1633],
+   Section 3.1, as a way of understanding broad-brush application
+   requirements.  This document should be reviewed to obtain a broad
+   understanding of the issues in quality of service, just as [RFC2475]
+   should be reviewed to understand the data plane architecture used in
+   today's Internet.
+
+   [DLB: Add discussion of class selector code points, see RFC 2474.
+   Add a warning here that while CS1 is intended for less than best
+   effort, that's not what always happens - many networks do not support
+   a less-than-best-effort PHB.]
+
+2.2.  DiffServ and Transport Protocols
 
    Various transport protocols exist today for various reasons; mostly
    because there was a need for a behavior that the IP layer just could
@@ -106,21 +208,24 @@ Table of Contents
    order packets necessitated the need for the development of a
    transport layer to handle both capabilities better.  The result was
    TCP.  There are now multiple transport protocols (i.e., TCP, UDP,
+   SCTP, etc.)  that have various behaviors.  These behaviors are not
+   the same depending on the network circumstance a/each packet finds
+   itself in as it traverses through the network.
 
-
-
-York, et al.           Expires September 07, 2014               [Page 2]
-
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
-
-
-   SCTP, etc.) that have various behaviors.  These behaviors are not the
-   same depending on the network circumstance a/each packet finds itself
-   in as it traverses through the network.
+   [DLB: Suggest removing next two paragraphs.  I'm not sure COS vs.
+   QoS distinction is useful here]
 
    With the IP layer, and not part of the 5-tuple identifier, DiffServ
    code points (DSCP) can be used in situations to provide quality of
    service (QoS), but in fact it is a class of service (COS)
+
+
+
+York, et al.            Expires October 03, 2014                [Page 4]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   April 2014
+
+
    differentiation they provide.  These 64 different values are found
    within the old TOS byte.  There is nothing in the DSCP field but
    zeros most of the time (i.e., Best Effort).  As specified within RFC
@@ -138,13 +243,48 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
    destination, or another non-zero value that is different from the
    packet that it was originally set to.
 
+   [DLB: Discuss effect of reordering on transport protocols.  In
+   general any congestion controlled protocol is sensitive to
+   reordering, UDP is the notable exception, as it's mux/demux only, no
+   congestion or flow control.]
+
+   [DLB: Discuss PHB/DSCP reordering effects - AF's use of multiple PHBs
+   and DSCPs in an AF class PHB Group (e.g., AF2x) does not cause
+   reordering, as they differ only in drop precedence; in general, all
+   other usage of different PHBs may cause reordering.]
+
 3.  Background on Usage of RTP
 
    (This section will provide explain about the needs of RTP.
 
+3.1.  RTP, UDP, DiffServ and 5-tuples
+
+   [DLB: This is where the RTP/UDP multiplex onto a single 5-tuple
+   discussion goes.  It gets followed by a warning that MF classifiers
+   (see RFC 2475) are unlikely to look at DSCP within 5-tuple, and hence
+   are likely to remove differentation within 5-tuple - this gets put in
+   context by pointing out that DSCP remarking is common, and hence
+   differentiation can vanish for all sorts of other reasons.]
+
 4.  Recomendations
 
    TODO
+
+   [DLB: Within a stream for a transport protocol that is sensitive to
+   reordering, i.e., everything but UDP, SHOULD only mix DSCPs/PHBs
+   within a single AF class.]
+
+
+
+
+York, et al.            Expires October 03, 2014                [Page 5]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   April 2014
+
+
+   [DLB: Here's where the text about mixing DSCPs (aside from single AF
+   class) on a UDP 5-tuple goes - it needs to point back to 3.1 with a
+   warning.]
 
 5.  RTCWEB Examples
 
@@ -157,19 +297,6 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
    within multiple RAI and TRANSPORT area working groups.  Thanks for
    review and text from James Polk, TODO.
 
-
-
-
-
-
-
-
-
-York, et al.           Expires September 07, 2014               [Page 3]
-
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
-
-
 7.  IANA Considerations
 
    This document includes no request to IANA.
@@ -178,6 +305,10 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
 
    (Need to understand if there are any security considerations to
    include.)
+
+   [DLB: Multiplexing of streams onto same UDP 5-tuple may not be
+   expected by network operational/monitoring/security tools, making it
+   easier to hide things?]
 
 9.  References
 
@@ -188,17 +319,24 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
 
 9.2.  Informative References
 
-   [RFC2474]  Nichols, K., Blake, S., Baker, F., and D. Black,
+   [RFC2474]  Nichols, K., Blake, S., Baker, F., and D.L. Black,
               "Definition of the Differentiated Services Field (DS
               Field) in the IPv4 and IPv6 Headers", RFC 2474, December
               1998.
 
-   [RFC2475]  Blake, S., Black, D., Carlson, M., Davies, E., Wang, Z.,
-              and W. Weiss, "An Architecture for Differentiated
+   [RFC2475]  Blake, S., Black, D.L., Carlson, M.A., Davies, E., Wang,
+              Z., and W. Weiss, "An Architecture for Differentiated
               Services", RFC 2475, December 1998.
 
    [RFC3260]  Grossman, D., "New Terminology and Clarifications for
               Diffserv", RFC 3260, April 2002.
+
+
+
+York, et al.            Expires October 03, 2014                [Page 6]
+
+Internet-DraLimitations of Using DiffServ And DSCP With RTP   April 2014
+
 
 Authors' Addresses
 
@@ -209,21 +347,6 @@ Authors' Addresses
 
    Phone: +1-802-735-1624
    Email: dyork@lodestar2.com
-
-
-
-
-
-
-
-
-
-
-
-
-York, et al.           Expires September 07, 2014               [Page 4]
-
-Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
 
 
    David Black
@@ -265,16 +388,4 @@ Internet-DrafLimitations of Using DiffServ And DSCP With RTP  march 2014
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-York, et al.           Expires September 07, 2014               [Page 5]
+York, et al.            Expires October 03, 2014                [Page 7]
