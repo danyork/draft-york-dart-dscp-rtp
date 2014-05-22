@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 
-<!DOCTYPE rfc SYSTEM "http://xml.resource.org/authoring/rfc2629.dtd" [
-<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC2474 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2474.xml">
-<!ENTITY RFC2475 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2475.xml">
-<!ENTITY RFC2597 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2597.xml">
-<!ENTITY RFC3168 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3168.xml">
-<!ENTITY RFC3246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3246.xml">
-<!ENTITY RFC3260 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3260.xml">
-<!ENTITY RFC3662 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3662.xml">
-<!ENTITY RFC5865 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5865.xml">
+<!DOCTYPE rfc SYSTEM "http://xml2rfc.tools.ietf.org/authoring/rfc2629.dtd" [
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2474 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2474.xml">
+<!ENTITY RFC2475 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2475.xml">
+<!ENTITY RFC2597 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2597.xml">
+<!ENTITY RFC3168 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
+<!ENTITY RFC3246 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3246.xml">
+<!ENTITY RFC3260 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3260.xml">
+<!ENTITY RFC3662 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3662.xml">
+<!ENTITY RFC5865 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5865.xml">
 ]>
 <?xml-stylesheet type='text/xsl'
-             href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
+             href='http://xml2rfc.tools.ietf.org/authoring/rfc2629.xslt' ?>
 <?rfc strict="yes" ?>
 <?rfc toc="yes"?>
 <?rfc tocdepth="4"?>
@@ -308,21 +308,27 @@
     </section>  
     
     <section anchor="RTP" title="Background on Usage of RTP">
-      <t>(This section will provide explain about the needs of RTP.</t>
+      <t>(This section will provide explain about the needs of RTP.)</t>
 
+      <t>[Key point to DLB is *why* people want to do muxing in RTCWEB. Also
+      critical is the *terminology* used in RTCWEB for the different layers
+      and protocols so that DLB can use appropriate terms in response.]</t>  
+          
 <!--
 
 Explain:
 
-RTP has timing information in so two differnt flows, one for audio, and one for video, can be later syncronized and played at same time even if they got significnatly reorded. 
+RTP has timing information in so two different flows, one for audio, and one for video, 
+can be later synchronized and played at same time even if they got significantly 
+reordered. 
 
 Mention of jitter buffers. 
 
-Mention data channel as well as RTP
+Mention data channel as well as RTP.
 
 -->
 
-<-- DY: We had this sub-section in here. Are we now moving this to the
+<!-- DY: We had this sub-section in here. Are we now moving this to the
 recommendations?
 
     <section anchor="fivetuple" title="RTP, UDP, DiffServ and 5-tuples">
@@ -344,6 +350,8 @@ recommendations?
 <!--
 Warning about CS1 reorded 
 -->
+   <t>[DY: Key point for DLB to write here - how does DiffServ apply to 
+   the muxing over UDP described in the section above?]
 
    <t>[DLB: Within a stream for a transport protocol that is sensitive to
    reordering, i.e., everything but UDP, SHOULD only mix DSCPs/PHBs within
