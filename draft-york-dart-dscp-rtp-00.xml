@@ -314,6 +314,12 @@
       critical is the *terminology* used in RTCWEB for the different layers
       and protocols so that DLB can use appropriate terms in response.]</t>  
           
+       <t>[DY: Potential drafts that seem like they would be useful to reference
+       include:</t>
+       <t>- http://tools.ietf.org/html/draft-ietf-mmusic-sdp-bundle-negotiation-05</t>   
+       <t>- http://tools.ietf.org/html/draft-ietf-rtcweb-rtp-usage-14</t>
+       <t>- http://tools.ietf.org/html/draft-ietf-rtcweb-transports-02</t>
+       <t>]</t>
 <!--
 
 Explain:
@@ -351,7 +357,7 @@ recommendations?
 Warning about CS1 reorded 
 -->
    <t>[DY: Key point for DLB to write here - how does DiffServ apply to 
-   the muxing over UDP described in the section above?]
+   the muxing over UDP described in the section above?]</t>
 
    <t>[DLB: Within a stream for a transport protocol that is sensitive to
    reordering, i.e., everything but UDP, SHOULD only mix DSCPs/PHBs within
