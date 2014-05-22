@@ -98,7 +98,7 @@
       interactions (e.g., due to reordering). In addition, DSCP markings may
       be changed or removed between the source and destination of network
       traffic. This document covers the implications of these DiffServ aspects
-      for real-time network communicatio, including RTCWEB traffic.</t>
+      for real-time network communication, including RTCWEB traffic.</t>
       
     </abstract>
   </front>
@@ -245,7 +245,7 @@
 
         <t>In general, traffic marked with different DSCPs result in different
         DSCPs being applied. In this case, network node reordering of packets
-        with dfferent DSCPs is possible at network nodes due to the use of
+        with different DSCPs is possible at network nodes due to the use of
         different sets of forwarding resources for each PHB. The sole
         exception is that the reordering is prohibited within each AF class
         (e.g., AF1x); this is because the three PHBs in an AF class differ
@@ -389,7 +389,7 @@ Explain why the we can't do local network configuration of values used
 
 <!-- 
 
-Do we need to say anything about how munnging DSCP can mess things up ?
+Do we need to say anything about how munging DSCP can mess things up ?
 
 
 -->
