@@ -5,10 +5,10 @@
 DiffServ Applied to Real-time Transports                    D. York, Ed.
 Internet-Draft                                          Internet Society
 Intended status: Standards Track                                D. Black
-Expires: November 23, 2014                                           EMC
+Expires: December 05, 2014                                           EMC
                                                              C. Jennings
                                                                    Cisco
-                                                            May 22, 2014
+                                                           June 03, 2014
 
 
  Using Differentiated Services (DiffServ) With Real-time Communications
@@ -20,15 +20,15 @@ Abstract
    This document describes the interaction between Differentiated
    Services (DiffServ) network quality of service (QoS) functionality
    and real-time network communication, including communication based on
-   the Real-time Transport Protocol (RTP).  DiffServ service
-   differentiation is based on network nodes applying different
-   forwarding treatments to packets whose IP headers are marked with
-   different DiffServ Code Points (DSCPs), so use of different DSCPs may
+   the Real-time Transport Protocol (RTP).  DiffServ is based on network
+   nodes applying different forwarding treatments to packets whose IP
+   headers are marked with different DiffServ Code Points (DSCPs).  As a
+   result, use of different DSCPs within a single traffic stream may
    cause transport protocol interactions (e.g., due to reordering).  In
-   addition, DSCP markings may be changed or removed between the source
-   and destination of network traffic.  This document covers the
+   addition, DSCP markings may be changed or removed between the
+   traffic's source and destination.  This document covers the
    implications of these DiffServ aspects for real-time network
-   communication, including RTCWEB traffic.
+   communication, including RTCWEB.
 
 Status of This Memo
 
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on November 23, 2014.
+   This Internet-Draft will expire on December 05, 2014.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-York, et al.           Expires November 23, 2014                [Page 1]
+York, et al.           Expires December 05, 2014                [Page 1]
 
-Internet-Draft          Using DiffServ with RTP                 May 2014
+Internet-Draft          Using DiffServ with RTP                June 2014
 
 
    Copyright (c) 2014 IETF Trust and the persons identified as the
@@ -77,41 +77,41 @@ Table of Contents
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   3
    2.  Background  . . . . . . . . . . . . . . . . . . . . . . . . .   3
      2.1.  Differentiated Services (DiffServ)  . . . . . . . . . . .   3
-     2.2.  DiffServ and Transport Protocols  . . . . . . . . . . . .   5
-     2.3.  Traffic Classifiers and Remarking . . . . . . . . . . . .   6
-   3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   6
-   4.  Recommendations . . . . . . . . . . . . . . . . . . . . . . .   7
-   5.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   7
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   7
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   7
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .   7
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
+     2.2.  Diffserv PHBs (Per-Hop Behaviors) . . . . . . . . . . . .   5
+     2.3.  DiffServ and Transport Protocols  . . . . . . . . . . . .   6
+     2.4.  Traffic Classifiers and DSCP Remarking  . . . . . . . . .   7
+   3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   8
+   4.  Recommendations . . . . . . . . . . . . . . . . . . . . . . .   8
+   5.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   8
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   8
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   9
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
 
    This document describes the interactions between Differentiated
    Services (DiffServ) network quality of service (QoS) functionality
-   [RFC2475]and real-time network communication, including communication
-   based on the Real-time Transport Protocol (RTP).  DiffServ service
-   differentiation is based on network nodes applying different
-   forwarding treatments to packets whose IP headers are marked with
-   different DiffServ Code Points (DSCPs)[RFC2474], so use of different
-   DSCPs may cause transport protocol interactions (e.g., due to
-   reordering).  In addition, DSCP markings may be changed or removed
-   between the source and destination of network traffic.  This document
-   covers the implications of these DiffServ aspects for real-time
-   network communication, including RTCWEB traffic.
+   [RFC2475] and real-time network communication, including
+   communication based on the Real-time Transport Protocol (RTP).
+   DiffServ is based on network nodes applying different forwarding
+   treatments to packets whose IP headers are marked with different
+   DiffServ Code Points (DSCPs)[RFC2474].  As a result use of different
+   DSCPs within a single traffic stream may cause transport protocol
+   interactions (e.g., due to reordering).  In addition, DSCP markings
+   may be changed or removed between the traffic's source and
+   destination.  This document covers the implications of these DiffServ
+   aspects for real-time network communication, including RTCWEB
+   traffic.
 
 
 
-
-
-York, et al.           Expires November 23, 2014                [Page 2]
+York, et al.           Expires December 05, 2014                [Page 2]
 
-Internet-Draft          Using DiffServ with RTP                 May 2014
+Internet-Draft          Using DiffServ with RTP                June 2014
 
 
 1.1.  Requirements Language
@@ -122,39 +122,72 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
 
 2.  Background
 
-   [Should this section include a general description of real-time
-   communications, including RTCWEB?]
+   [Editor's note: Should this section include a general description of
+   real-time communications, including RTCWEB?]
 
-   [This paragraph needs to be expanded to better characterize the
-   variety of traffic.]  For real-time network communication, the
-   network traffic consists of RTP streams (or other real-time media
-   (sub-)flows) that are carried in transport protocols such as UDP, TCP
-   and SCTP over IP and network links.  Multiple transport protocols may
-   be used via encapsulation, e.g., SCTP in UDP.  Diffserv functionality
-   is applied via use of DSCPs in the DS field of the IP headers to
-   select different per-hop forwarding behaviors at network nodes.
+   [Editor's note: The following paragraph needs to be expanded to
+   better characterize the variety of types of traffic, and probably
+   generalize beyond RTP.]
+
+   For real-time network communication, the network traffic consists of
+   RTP streams (or other real-time media (sub-)flows) that are carried
+   in transport protocols such as UDP, TCP and SCTP over IP and network
+   links.  Multiple transport protocols may be used via encapsulation,
+   e.g., SCTP in UDP.  DiffServ functionality is applied via use of
+   DSCPs in the DS field of the IP headers to select different per-hop
+   forwarding behaviors at network nodes.
 
 2.1.  Differentiated Services (DiffServ)
 
-   The Diffserv architecture[RFC2475] is comprised of three primary
+   The DiffServ architecture is intended to enable scalable service
+   discrimination in the Internet without the need for per-flow state
+   and signaling at every hop or node.  A variety of services may be
+   built from a small, well-defined set of building blocks that are
+   deployed in network nodes.  The services may be either end-to-end or
+   intra-domain; they include both those that can satisfy quantitative
+   performance requirements (e.g., peak bandwidth) and those based on
+   relative performance (e.g., "class" differentiation).  Services can
+   be constructed by a combination of:
+
+   o  classifying traffic and setting bits in an IP header field at
+      network boundaries or hosts,
+
+   o  using those bits to determine how packets are forwarded by the
+      nodes inside the network, and
+
+   o  conditioning the marked packets (e.g., metering, marking, shaping,
+      policing) at network boundaries in accordance with the
+      requirements or rules of each service.
+
+   The requirements or rules of each service are set through
+   administrative policy mechanisms.  A network node that supports
+   DiffServ includes a classifier that selects packets based on the
+
+
+
+York, et al.           Expires December 05, 2014                [Page 3]
+
+Internet-Draft          Using DiffServ with RTP                June 2014
+
+
+   value of the DS field in IP headers, along with buffer management and
+   packet scheduling mechanisms capable of delivering the specific
+   packet forwarding treatment indicated by the DS field value.  Setting
+   of the DS field and fine-grain conditioning of marked packets need
+   only be performed at network boundaries; internal network nodes
+   operate on traffic aggregates that share a DS field value or in some
+   cases, a small set of related values.
+
+   The DiffServ architecture[RFC2475] is comprised of three primary
    functional elements that are implemented in network nodes:
 
-   1.  a small set of per-hop forwarding behaviors (per-hop behaviors,
-       PHBs),
+   1.  a small set of per-hop forwarding treatments or behaviors (per-
+       hop behaviors, PHBs),
 
    2.  packet classification functions, and
 
    3.  traffic conditioning functions including metering, marking,
        shaping, and policing.
-
-   Complex classification and conditioning functions are implemented
-   only at network boundary nodes; interior nodes apply per-hop
-   behaviors to aggregates of traffic that have been appropriately
-   marked using the DS field in the IPv4 or IPv6 headers [RFC2474].
-   Per-hop behaviors provide a coarse grained means of allocating buffer
-   and bandwidth resources at each node among competing traffic so that
-   per-application flow or per-customer forwarding state need not be
-   maintained within the core of the network.
 
    The architecture maintains distinctions among:
 
@@ -163,45 +196,45 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
    o  the conditioning functions and per-hop behaviors used to realize
       services,
 
-
-
-York, et al.           Expires November 23, 2014                [Page 3]
-
-Internet-Draft          Using DiffServ with RTP                 May 2014
-
-
    o  the DS field value (DS codepoint, or DSCP) used to mark packets to
       select a per-hop behavior, and
 
    o  the particular implementation mechanisms that realize a per-hop
       behavior.
 
-   This document focuses on usage of DSCPs and PHBs.  In the forwarding
-   path, differentiated services are realized by mapping the DSCP
-   contained in a field in the IP packet header to a particular
-   forwarding treatment, or per-hop behavior (PHB), at each network node
-   along its path.  The codepoints may be chosen from a set of mandatory
-   values (the class selector codepoints), from a set of recommended
-   values defined in PHB specifications, or may have purely local
-   meaning.
+   This document focuses on PHBs and the usage of DSCPs to obtain those
+   behaviors.  In a network node's forwarding path, the DSCP contained
+   in a field in the IP packet header is mapped to a particular
+   forwarding treatment, or per-hop behavior (PHB) that specifies the
+   forwarding treatment.
 
    A per-hop behavior (PHB) is a description of the externally
    observable forwarding behavior of a network node applied to network
-   traffic marked with the corresponding DSCP for that network.
-   "Forwarding behavior" is a general concept in this context.  For
-   example, in the event that only one DSCP is used for all traffic on a
-   link, the observable forwarding behavior (e.g., loss, delay, jitter)
-   will often depend only on the relative loading of the link (i.e., in
-   the event that the behavior assumes a work-conserving scheduling
-   discipline).  Useful behavioral distinctions are mainly observed when
-   multiple traffic subsets marked with different DSCPs compete for
-   buffer and bandwidth resources on a node.  The PHB is the means by
-   which a network node allocates resources to traffic subsets, and it
-   is on top of this basic hop-by-hop resource allocation mechanism that
-   useful differentiated services may be constructed.
+   traffic marked with the corresponding DSCP for that network.  In this
+   context, "forwarding behavior" is a general - for example, if only
+   one DSCP is used for all traffic on a link, the observable forwarding
+   behavior (e.g., loss, delay, jitter) will often depend only on the
+   relative loading of the link.  To obtain useful behavioral multiple
+   traffic subsets are marked with different DSCPs for different PHBs to
+   which node resources such as buffer space and bandwidth are
+   allocated.  PHBs provide the framework for a DiffServ network node to
 
-   The mandatory DSCPs are the class selector code points as specified
-   in [RFC2474].  The class selector codepoints (CS0-CS7) extend the
+
+
+York, et al.           Expires December 05, 2014                [Page 4]
+
+Internet-Draft          Using DiffServ with RTP                June 2014
+
+
+   allocates resources to traffic subsets, and useful differentiated
+   services are constructed top of this basic hop-by-hop (per-node)
+   resource allocation mechanism.
+
+   The codepoints (DCSPs) may be chosen from a set of mandatory values
+   (the class selector codepoints), from a set of recommended values
+   defined in PHB specifications, or may have purely local meaning.  The
+   mandatory DSCPs are the class selector code points as specified in
+   [RFC2474].  The class selector codepoints (CS0-CS7) extend the
    deprecated IP Precedence field in the IPv4 header; three bits are
    added, so that the class selector DSCPs are of the form 'xxx000'.
    The all-zero DSCP ('00000') designates a Default PHB that provides
@@ -210,97 +243,102 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
    hop-forwarding behavior in increasing numerical order, but:
 
    o  There is no requirement that any two adjacent class selector
-      codepoints provide different PHBs.
+      codepoints provide different PHBs; adjacent class selector
+      codepoints may use the same pools of resources on each network
+      node in some networks.
 
-   o  CS1 ('001000') was subsequently recommended for use with a "less
-      than best effort" service when one is offered by a network
-      [RFC3662].
+   o  CS1 ('001000') was subsequently recommended for "less than best
+      effort" service when such a service is offered by a network
+      [RFC3662].  Not all networks offer such a service.
 
-   Applications and other sources of traffic cannot rely upon different
-   class selector codepoints providing differentiated services or upon
+   Applications and traffic sources in general cannot rely upon
+   different class selector codepoints providing differentiated services
+   or upon the presence of a "less than best effort" service that is
+   selected by the CS1 DSCP.
+
+2.2.  Diffserv PHBs (Per-Hop Behaviors)
+
+   Although Differentiated Services is a general architecture that may
+   be used to implement a variety of services, three fundamental
+   forwarding behaviors (PHBs) have been defined and characterized for
+   general use.  These are:
+
+   1.  Default Forwarding (DF) for elastic traffic [RFC2474].  The
+       Default PHB is always selected by the all-zero DSCP.
+
+   2.  Assured Forwarding (AF) [RFC2597] to provide differentiated
+       service to elastic traffic.  Each instance of the AF behavior
+       consists of three PHBs that differ only in drop precedence, e.g.,
+       AF11, AF12 and AF13; such a set of three AF PHBs is referred to
+       as an AF class, e.g., AF1x.  There are four defined AF classes,
+       AF1x through AF4x.
 
 
 
-York, et al.           Expires November 23, 2014                [Page 4]
+
+
+York, et al.           Expires December 05, 2014                [Page 5]
 
-Internet-Draft          Using DiffServ with RTP                 May 2014
+Internet-Draft          Using DiffServ with RTP                June 2014
 
 
-   the presence of a "less than best effort" service that is selected by
-   CS1.
+   3.  Expedited Forwarding (EF) [RFC3246]intended for inelastic
+       traffic.  Beyond the basic EF PHB, the VOICE-ADMIT PHB [RFC5865]
+       is an admission controlled variant of the EF PHB.
 
-   While Differentiated Services is a general architecture that may be
-   used to implement a variety of services, three fundamental forwarding
-   behaviors have been defined and characterized for general use.  These
-   are basic Default Forwarding (DF) behavior for elastic traffic
-   [RFC2474], the Assured Forwarding (AF) behavior [RFC2597], and the
-   Expedited Forwarding (EF) behavior [RFC3246]intended for inelastic
-   traffic.  Each instance of AF consists of three PHBs, with associated
-   recommended DSCPs that differ only in drop precedence, e.g., AF11,
-   AF12 and AF13; this set of PHBs and recommended DSCPs is referred to
-   as an AF class, e.g., AF1x.  There are four recommended AF classes,
-   AF1x through AF4x.  One PHB and and associated recommended DSCP are
-   recommended for EF and likewise for the admission-controlled variant
-   of the EF PHB, VOICE-ADMIT [RFC5865].
+2.3.  DiffServ and Transport Protocols
 
-   In general, traffic marked with different DSCPs result in different
-   DSCPs being applied.  In this case, network node reordering of
-   packets with different DSCPs is possible at network nodes due to the
-   use of different sets of forwarding resources for each PHB.  The sole
-   exception is that the reordering is prohibited within each AF class
-   (e.g., AF1x); this is because the three PHBs in an AF class differ
-   solely in drop precedence.  Reordering may occur for other transient
-   reasons (e.g., route flap).
+   [Editor's note: This section is centered on TCP, UDP, and SCTP.  It
+   will need some generalization to include other important transport
+   protocols - DCCP is a likely one to include, although it is not
+   necessary to include every known transport protocol.]
 
-2.2.  DiffServ and Transport Protocols
-
-   Transport protocols exist to provide behaviors that cannot be
-   provided at the IP layer.  For example, the need for the combination
-   of reliable in-order delivery (to a receiving application) wiht
-   congestion control resulted in TCP.  There are now multiple transport
-   protocols (i.e., TCP, UDP, SCTP, etc.)  that provide different
-   behaviors.
-
-   [David: Need some text here on important characteristics of some
-   transport protocols - the three key ones are in-order delivery,
-   reliable delivery, and congestion control.  Include text on the
-   importance of congestion control.  Should we limit discussion to TCP,
-   SCTP, UDP here?]
+   Transport protocols provide data communication behaviors beyond those
+   possible at the IP layer.  An important example is that TCP provides
+   reliable in-order delivery of a data stream with congestion control.
+   SCTP provides additional properties such as preservation of message
+   boundaries, and the ability to avoid head-of-line blocking that may
+   occur with TCP.  In contrast, UDP is a basic unreliable datagram
+   protocol whose primary functionality is port-based multiplexing and
+   demultiplexing on top of IP.
 
    Transport protocols that provide in-order delivery and especially
    reliable in-order delivery for traffic or traffic subsets (e.g., TCP,
-   SCTP) are sensitive to reordering of traffic with in the network.  At
-   a minimum, when a protocol that provides reliable delivery does not
-   receive the expected next packet for an ordered connection or stream,
-   as indicated by receipt of a subsequent packet, it cannot deliver
-   that subsequent packet.  Although waiting for the packet to arrive
+   SCTP) are sensitive to network reordering of traffic.  At a minimum,
+   when a protocol that provides reliable in-order delivery does receive
+   a packet other than the next expected packet for an ordered
+   connection or stream, it cannot deliver that subsequent packet.  In
+   this situation, such protocols usually assume that the expected
+   packet has been lost and respond with a retransmission request for
+   that packet.  In addition, congestion control functionality in
+   transport protocols usually infers congestion when packets are lost,
+   creating an additional sensitivity to significant reordering - such
+   reordering may be (mis-)interpreted as indicating congestion-caused
+   packet loss, causing a reduction in transmission rate.  This remains
+   true even when ECN [RFC3168] is in use, as extreme congestion may
+   still cause packet losses, which transport protocols react to as
+   indicating congestion.  Congestion control is an important aspect of
+   the Internet architecture, see [RFC2914] for further discussion.
+
+   In general, marking traffic with different DSCPs result in different
+   PHBs being applied at network nodes, making reordering possible due
+   to use of different pools of forwarding resources for each PHB.  The
+   major exception is that the reordering is prohibited within each AF
+   class (e.g., AF1x); this is because the three PHBs in an AF class are
+   required to differ solely in drop precedence.  Reordering within a
+   PHB or AF class may occur for other transient reasons (e.g., route
+   flap).  UDP is the primary transport protocol that is not sensitive
+   to reordering in the network, because it does not provide reliable
+   delivery, in-order delivery or congestion control.
 
 
 
-York, et al.           Expires November 23, 2014                [Page 5]
+York, et al.           Expires December 05, 2014                [Page 6]
 
-Internet-Draft          Using DiffServ with RTP                 May 2014
+Internet-Draft          Using DiffServ with RTP                June 2014
 
 
-   out-of-order is possible, reliable delivery protocols usually assume
-   that the packet has been lost and respond with a retransmission
-   request for the missing packet.  Transport protocols that provide
-   congestion control generally use lost packets to infer congestion
-   (even when ECN [RFC3168] is in use), and hence are sensitive to
-   significant reordering that may be (mis-)interpreted as indicating
-   congestion-caused packet loss, causing a reduction in transmission
-   rate.
-
-   [David: Say something about in-order unreliable delivery?  Is that
-   germane to the real-time communication context of this draft?]
-
-   In general, UDP is the only transport protocol that is not sensitive
-   to reordering in the network, as it provides neither reliable
-   delivery, in-order delivery or congestion control; UDP is a
-   relatively simple multiplexing/demultiplexing protocol that provides
-   multiple datagram ports for a single IP address.
-
-2.3.  Traffic Classifiers and Remarking
+2.4.  Traffic Classifiers and DSCP Remarking
 
    [David: Main points to make here: Network core uses BA Classifier
    (DSCP only).  Network edge uses MF classifier, typically 5-tuple,
@@ -310,6 +348,54 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
    number of behavioral aggregates).  Using multiple DSCPs within a
    5-tuple is asking for an MF classifier to remove that
    differentiation.]
+
+   DSCP markings are not end-to-end in general.  Each network is free to
+   make its own decisions about what PHBs to use and what DSCP
+   corresponds to each PHB.  While every PHB specification includes a
+   recommended DSCP, and RFC 4594 [RFC4594] recommends their end-to-end
+   usage, beyond the class selector codepoints, there is no requirement
+   that every network support any other PHBs or use any DSCPs.  When
+   DiffServ is used, the edge or boundary nodes of a are responsible for
+   ensuring that all traffic entering a network conforms to that
+   network's policies for DSCP and PHB usage; this network ingress
+   traffic conditioning is a function of the classification, marking and
+   related traffic conditioning functionality at network boundaries
+   mentioned in Section 2.1 and is an important element of the DiffServ
+   architecture, see [RFC2475].  Hence DSCP remarking is possible at any
+   network boundary, including the first network node that traffic sent
+   by a host encounters.
+
+   The traffic classifiers that are used for this purpose often do not
+   look beyond the traffic's 5-tuple (source and destination IP
+   addresses, transport protocol, source and destination ports).  This
+   is the case even though the definition of MF classifiers (Multi-Flow
+   classifiers) in RFC 2475[RFC2475] allows arbitrary fields as input -
+   in practice, the DSCP is typically not one of those fields.  As a
+   result, when multiple DSCPs are used for network traffic that shares
+   a 5-tuple, remarking at a network boundary may result in all of the
+   traffic being forwarded with a single DSCP, removing any
+   differentiation within the 5-tuple beyond the point at which this
+   remarking occurs.
+
+   [Editor's note: Even an AF class doesn't fare well, as the AF->AF
+   remarking may be "color-blind" as opposed to "color-aware" - not sure
+   whether this level of detail belongs in this draft.]
+
+   Backbone and other carrier networks may employ a small number of
+   DSCPs (e.g., less than half a dozen) in order to manage a small
+   number of traffic aggregates; hosts that use a much larger number of
+   DSCPs may find that much of the intended differentiation is removed
+   by such networks.
+
+
+
+York, et al.           Expires December 05, 2014                [Page 7]
+
+Internet-Draft          Using DiffServ with RTP                June 2014
+
+
+   [Editor's note: Need to double-check preceding paragraph with network
+   operators.]
 
 3.  Background on Usage of RTP
 
@@ -330,13 +416,6 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
    - http://tools.ietf.org/html/draft-ietf-rtcweb-transports-02
 
    ]
-
-
-
-York, et al.           Expires November 23, 2014                [Page 6]
-
-Internet-Draft          Using DiffServ with RTP                 May 2014
-
 
 4.  Recommendations
 
@@ -364,6 +443,13 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
 
    This document includes no request to IANA.
 
+
+
+York, et al.           Expires December 05, 2014                [Page 8]
+
+Internet-Draft          Using DiffServ with RTP                June 2014
+
+
 8.  Security Considerations
 
    (Need to understand if there are any security considerations to
@@ -387,19 +473,15 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
               Field) in the IPv4 and IPv6 Headers", RFC 2474, December
               1998.
 
-
-
-York, et al.           Expires November 23, 2014                [Page 7]
-
-Internet-Draft          Using DiffServ with RTP                 May 2014
-
-
    [RFC2475]  Blake, S., Black, D.L., Carlson, M.A., Davies, E., Wang,
               Z., and W. Weiss, "An Architecture for Differentiated
               Services", RFC 2475, December 1998.
 
    [RFC2597]  Heinanen, J., Baker, F., Weiss, W., and J. Wroclawski,
               "Assured Forwarding PHB Group", RFC 2597, June 1999.
+
+   [RFC2914]  Floyd, S., "Congestion Control Principles", BCP 41, RFC
+              2914, September 2000.
 
    [RFC3168]  Ramakrishnan, K., Floyd, S., and D. Black, "The Addition
               of Explicit Congestion Notification (ECN) to IP", RFC
@@ -410,12 +492,23 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
               Stiliadis, "An Expedited Forwarding PHB (Per-Hop
               Behavior)", RFC 3246, March 2002.
 
-   [RFC3260]  Grossman, D., "New Terminology and Clarifications for
-              Diffserv", RFC 3260, April 2002.
-
    [RFC3662]  Bless, R., Nichols, K., and K. Wehrle, "A Lower Effort
               Per-Domain Behavior (PDB) for Differentiated Services",
               RFC 3662, December 2003.
+
+
+
+
+
+
+York, et al.           Expires December 05, 2014                [Page 9]
+
+Internet-Draft          Using DiffServ with RTP                June 2014
+
+
+   [RFC4594]  Babiarz, J., Chan, K., and F. Baker, "Configuration
+              Guidelines for DiffServ Service Classes", RFC 4594, August
+              2006.
 
    [RFC5865]  Baker, F., Polk, J., and M. Dolly, "A Differentiated
               Services Code Point (DSCP) for Capacity-Admitted Traffic",
@@ -442,14 +535,6 @@ Authors' Addresses
    Email: david.black@emc.com
 
 
-
-
-
-York, et al.           Expires November 23, 2014                [Page 8]
-
-Internet-Draft          Using DiffServ with RTP                 May 2014
-
-
    Cullen Jennings
    Cisco
    170 West Tasman Drive
@@ -471,33 +556,4 @@ Internet-Draft          Using DiffServ with RTP                 May 2014
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-York, et al.           Expires November 23, 2014                [Page 9]
+York, et al.           Expires December 05, 2014               [Page 10]
