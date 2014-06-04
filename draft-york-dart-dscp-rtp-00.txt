@@ -5,10 +5,11 @@
 DiffServ Applied to Real-time Transports                    D. York, Ed.
 Internet-Draft                                          Internet Society
 Intended status: Standards Track                                D. Black
-Expires: December 05, 2014                                           EMC
+Expires: December 5, 2014                                            EMC
                                                              C. Jennings
+                                                                P. Jones
                                                                    Cisco
-                                                           June 03, 2014
+                                                            June 3, 2014
 
 
  Using Differentiated Services (DiffServ) With Real-time Communications
@@ -45,18 +46,19 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 05, 2014.
+   This Internet-Draft will expire on December 5, 2014.
+
+
+
+
+
+
+York, et al.            Expires December 5, 2014                [Page 1]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
 
 Copyright Notice
-
-
-
-
-
-York, et al.           Expires December 05, 2014                [Page 1]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
 
    Copyright (c) 2014 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
@@ -76,20 +78,20 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   3
    2.  Background  . . . . . . . . . . . . . . . . . . . . . . . . .   3
-     2.1.  Differentiated Services (DiffServ)  . . . . . . . . . . .   3
-     2.2.  Diffserv PHBs (Per-Hop Behaviors) . . . . . . . . . . . .   5
-     2.3.  DiffServ and Transport Protocols  . . . . . . . . . . . .   6
-     2.4.  Traffic Classifiers and DSCP Remarking  . . . . . . . . .   7
-   3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   8
-   4.  Recommendations . . . . . . . . . . . . . . . . . . . . . . .   8
-   5.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .   8
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   8
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .   9
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
+     2.1.  Differentiated Services (DiffServ)  . . . . . . . . . . .   4
+     2.2.  Diffserv PHBs (Per-Hop Behaviors) . . . . . . . . . . . .   6
+     2.3.  DiffServ and Transport Protocols  . . . . . . . . . . . .   7
+     2.4.  Traffic Classifiers and DSCP Remarking  . . . . . . . . .   8
+   3.  Background on Usage of RTP  . . . . . . . . . . . . . . . . .   9
+   4.  Recommendations . . . . . . . . . . . . . . . . . . . . . . .  10
+   5.  RTCWEB Examples . . . . . . . . . . . . . . . . . . . . . . .  11
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  11
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
@@ -104,15 +106,16 @@ Table of Contents
    interactions (e.g., due to reordering).  In addition, DSCP markings
    may be changed or removed between the traffic's source and
    destination.  This document covers the implications of these DiffServ
+
+
+
+York, et al.            Expires December 5, 2014                [Page 2]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
    aspects for real-time network communication, including RTCWEB
    traffic.
-
-
-
-York, et al.           Expires December 05, 2014                [Page 2]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
 
 1.1.  Requirements Language
 
@@ -122,20 +125,82 @@ Internet-Draft          Using DiffServ with RTP                June 2014
 
 2.  Background
 
-   [Editor's note: Should this section include a general description of
-   real-time communications, including RTCWEB?]
+   Real-time communications enables communication in real-time over an
+   IP network using various communication modalities, including voice,
+   video, text, content sharing, etc.  It is possible to utilize any one
+   or more modalities in parallel in order to provide for a richer
+   communication experience.
 
-   [Editor's note: The following paragraph needs to be expanded to
-   better characterize the variety of types of traffic, and probably
-   generalize beyond RTP.]
+   Perhaps the simplest example of real-time communications is a voice
+   phone call placed over the Internet wherein an audio flow is
+   transmitted in each direction between two users.  A more complex
+   example might be an immersive videoconferencing system that might
+   have multiple video screens, multiple cameras, multiple microphones,
+   and some means of sharing content.  For such complex systems, there
+   may be multiple media flows that may be sent over a single IP address
+   and port or transmitted over different IP addresses and ports.
 
-   For real-time network communication, the network traffic consists of
-   RTP streams (or other real-time media (sub-)flows) that are carried
-   in transport protocols such as UDP, TCP and SCTP over IP and network
-   links.  Multiple transport protocols may be used via encapsulation,
-   e.g., SCTP in UDP.  DiffServ functionality is applied via use of
-   DSCPs in the DS field of the IP headers to select different per-hop
-   forwarding behaviors at network nodes.
+   Generally, the protocol used to send real time media flows is the
+   Real-Time Transport Protocol (RTP)[RFC3550].  RTP defines the
+   mechanism by which real-time data is transmitted between hosts on the
+   Internet.  With most applications, a single media type (e.g., audio)
+   is transmitted within a single RTP session.  However, it is possible
+   to transmit multiple, distinct media flows over the same RTP session.
+   This is referred to as RTP multiplexing.
+
+   Other transport protocols may be used to transmit real-time data or
+   near-real-time data, however.  For example, SCTP might be utilized to
+   carry application sharing or whiteboarding information as part of an
+   overall interaction that includes real time media flows.  These
+   additional protocols can be multiplexed with one or more RTP sessions
+   via UDP encapsulation, thereby using a single pair of UDP ports.  The
+   RTCWEB protocol suite [XXX add reference to rtcweb-transports draft
+   here XXX] provides an example that can employ two layers of
+   multiplexing:
+
+   1.  Individual media flows are carried in individual RTP packet
+       streams that can multiplexed into a single RTP session (for
+       RTCWEB,an individual media flow is a MediaStreamTrack, and a
+
+
+
+
+York, et al.            Expires December 5, 2014                [Page 3]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
+       MediaStream man contain multiple MediaStreamTracks [XXX add
+       reference to W3C mediacapture-streams document here XXX]); and
+
+   2.  One or more RTP session(s) multiplexed can be multiplexed with
+       other transport protocols via UDP encapsulation over a common
+       pair of UDP ports.  The resulting unidirectional UDP flow is
+       uniquely identified by a 5-tuple, i.e., a combination of two IP
+       addresses (source and destination), two UDP ports (source and
+       destination), and the use of the UDP protocol.
+
+   The number of media and other transport flows in an overall real-time
+   interaction can be surprisingly large.  While a voice flow and a
+   video flow are obvious, there could be separate media flows for each
+   of the cameras or microphones on a videoconferencing system.  For
+   each of those video flows, and especially for layered video codecs,
+   there might be flows that carry spatial and temporal data separately
+   from the base layer.  There might also be a flow that provides
+   protection to a media flow, using techniques like Forward Error
+   Correction or redundancy.  Still another example for simulcast
+   transmissions, such as where a video flow is transmitted at high
+   resolution and low resolution at the same time.  In this case, a
+   media processing function might choose to send one or the other or
+   both downstream to a receiver based on bandwidth availability or who
+   the active speaker is in a multipoint conference.  Lastly, a
+   transmitter might send the media flow using multiple encodings (e.g.,
+   VP8 in parallel with H.264), such as to allow a media processing
+   function to select a media encoding that best matches the
+   capabilities of the receiver.
+
+   [XXX DLB: Dan or Paul need to check that all the flow examples make
+   sense as individual RTP packet streams.  XXX]
 
 2.1.  Differentiated Services (DiffServ)
 
@@ -152,6 +217,15 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    o  classifying traffic and setting bits in an IP header field at
       network boundaries or hosts,
 
+
+
+
+
+York, et al.            Expires December 5, 2014                [Page 4]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
    o  using those bits to determine how packets are forwarded by the
       nodes inside the network, and
 
@@ -162,14 +236,6 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    The requirements or rules of each service are set through
    administrative policy mechanisms.  A network node that supports
    DiffServ includes a classifier that selects packets based on the
-
-
-
-York, et al.           Expires December 05, 2014                [Page 3]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
-
    value of the DS field in IP headers, along with buffer management and
    packet scheduling mechanisms capable of delivering the specific
    packet forwarding treatment indicated by the DS field value.  Setting
@@ -203,10 +269,18 @@ Internet-Draft          Using DiffServ with RTP                June 2014
       behavior.
 
    This document focuses on PHBs and the usage of DSCPs to obtain those
-   behaviors.  In a network node's forwarding path, the DSCP contained
-   in a field in the IP packet header is mapped to a particular
-   forwarding treatment, or per-hop behavior (PHB) that specifies the
-   forwarding treatment.
+   behaviors.  In a network node's forwarding path, the DSCP in a field
+   in the IP packet header is mapped to a particular forwarding
+   treatment, or per-hop behavior (PHB) that specifies the forwarding
+   treatment.
+
+
+
+
+York, et al.            Expires December 5, 2014                [Page 5]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
 
    A per-hop behavior (PHB) is a description of the externally
    observable forwarding behavior of a network node applied to network
@@ -218,14 +292,6 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    traffic subsets are marked with different DSCPs for different PHBs to
    which node resources such as buffer space and bandwidth are
    allocated.  PHBs provide the framework for a DiffServ network node to
-
-
-
-York, et al.           Expires December 05, 2014                [Page 4]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
-
    allocates resources to traffic subsets, and useful differentiated
    services are constructed top of this basic hop-by-hop (per-node)
    resource allocation mechanism.
@@ -263,6 +329,15 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    forwarding behaviors (PHBs) have been defined and characterized for
    general use.  These are:
 
+
+
+
+
+York, et al.            Expires December 5, 2014                [Page 6]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
    1.  Default Forwarding (DF) for elastic traffic [RFC2474].  The
        Default PHB is always selected by the all-zero DSCP.
 
@@ -272,15 +347,6 @@ Internet-Draft          Using DiffServ with RTP                June 2014
        AF11, AF12 and AF13; such a set of three AF PHBs is referred to
        as an AF class, e.g., AF1x.  There are four defined AF classes,
        AF1x through AF4x.
-
-
-
-
-
-York, et al.           Expires December 05, 2014                [Page 5]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
 
    3.  Expedited Forwarding (EF) [RFC3246]intended for inelastic
        traffic.  Beyond the basic EF PHB, the VOICE-ADMIT PHB [RFC5865]
@@ -320,6 +386,14 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    indicating congestion.  Congestion control is an important aspect of
    the Internet architecture, see [RFC2914] for further discussion.
 
+
+
+
+York, et al.            Expires December 5, 2014                [Page 7]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
    In general, marking traffic with different DSCPs result in different
    PHBs being applied at network nodes, making reordering possible due
    to use of different pools of forwarding resources for each PHB.  The
@@ -330,13 +404,6 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    flap).  UDP is the primary transport protocol that is not sensitive
    to reordering in the network, because it does not provide reliable
    delivery, in-order delivery or congestion control.
-
-
-
-York, et al.           Expires December 05, 2014                [Page 6]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
 
 2.4.  Traffic Classifiers and DSCP Remarking
 
@@ -365,21 +432,31 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    network boundary, including the first network node that traffic sent
    by a host encounters.
 
-   The traffic classifiers that are used for this purpose often do not
-   look beyond the traffic's 5-tuple (source and destination IP
-   addresses, transport protocol, source and destination ports).  This
-   is the case even though the definition of MF classifiers (Multi-Flow
-   classifiers) in RFC 2475[RFC2475] allows arbitrary fields as input -
-   in practice, the DSCP is typically not one of those fields.  As a
-   result, when multiple DSCPs are used for network traffic that shares
-   a 5-tuple, remarking at a network boundary may result in all of the
-   traffic being forwarded with a single DSCP, removing any
-   differentiation within the 5-tuple beyond the point at which this
-   remarking occurs.
+   The traffic classifiers that are used for remarking often do not look
+   beyond the traffic's 5-tuple (source and destination IP addresses,
+   transport protocol, source and destination ports).  This is the case
+   even though the definition of MF classifiers (Multi-Flow classifiers)
+   in RFC 2475[RFC2475] allows arbitrary fields as input - in practice,
+   the DSCP is typically not one of those fields.  As a result, when
+   multiple DSCPs are used for network traffic that shares a 5-tuple,
+   remarking at a network boundary may result in all of the traffic
+   being forwarded with a single DSCP, removing any differentiation
+   within the 5-tuple beyond the point at which this remarking occurs.
 
-   [Editor's note: Even an AF class doesn't fare well, as the AF->AF
-   remarking may be "color-blind" as opposed to "color-aware" - not sure
-   whether this level of detail belongs in this draft.]
+
+
+York, et al.            Expires December 5, 2014                [Page 8]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
+   In addition, remarking may remove application-level distinctions in
+   forwarding behavior - e.g., if multiple PHBs within an AF class are
+   used to distinguish different types of frames within a video flow,
+   token-bucket-based remarkers operating in Color-Blind mode (see
+   [RFC2697] and [RFC2698] for examples) may remark solely based on flow
+   rate and burst behavior, removing the drop precedence distinctions
+   specified by the source.
 
    Backbone and other carrier networks may employ a small number of
    DSCPs (e.g., less than half a dozen) in order to manage a small
@@ -387,23 +464,59 @@ Internet-Draft          Using DiffServ with RTP                June 2014
    DSCPs may find that much of the intended differentiation is removed
    by such networks.
 
-
-
-York, et al.           Expires December 05, 2014                [Page 7]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
-
    [Editor's note: Need to double-check preceding paragraph with network
    operators.]
 
 3.  Background on Usage of RTP
 
-   (This section will provide explain about the needs of RTP.)
+   Section2 explains how media flows can be multiplexed over RTP
+   sessions which can in turn be multiplexed over UDP with other RTP
+   sessions and flows generated by other transport protocols.  This
+   section provides background on why this level of media flow
+   multiplexing is desirable.  The rationale in this section applies
+   both to multiplexing of media flows in RTP sessions and multiplexing
+   of one or more RTP sessions with traffic from other transport
+   protocols via UDP encapsulation.
 
-   [Key point to DLB is *why* people want to do muxing in RTCWEB.  Also
-   critical is the *terminology* used in RTCWEB for the different layers
-   and protocols so that DLB can use appropriate terms in response.]
+   Multiplexing reduces the number of ports utilized for real-time and
+   related communication in an overall interaction.  While a single
+   endpoint might have plenty of ports available for communication,
+   these media flows are often traverse points in the network that are
+   constrained on the number of available ports.  A good example is a
+   NAT/FW device sitting at the network edge.  As the number of
+   simultaneous protocol sessions increases, so does the burden placed
+   on these devices in order to provide port mapping.
+
+   Another reason for multiplexing is to help reduce the time required
+   to establish bi-directional traffic flows.  Since any two
+   communicating users might be situated behind different NAT/FW
+   devices, it is necessary to employ techniques like STUN/ICE/TURN in
+   order to get traffic to flow between the two devices.  Performing the
+   tasks required of STUN/ICE/TURN take time and requiring an endpoint
+   to perform these tasks for several flows can increase the time
+   required.  While tasks for different flows can be performed in
+   parallel, it is nonetheless necessary for applications to wait for
+   all flows to be opened before communication between to users can
+   begin.  Reducing the number of STUN/ICE/TURN steps reduces the
+
+
+
+York, et al.            Expires December 5, 2014                [Page 9]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
+   probability of losing a packet and introducing delay in setting up a
+   communication session.  Further, reducing the number of STUN/ICE/TURN
+   tasks means that there is a lower burden placed on the STUN and TURN
+   servers.  [XXX need STUN/TURN/ICE references XXX]
+
+   Multiplexing may reduce the complexity and resulting load on an
+   endpoint.  A single instance of STUN/ICE/TURN is simpler to execute
+   and manage than multiple instances STUN/ICE/TURN operations happening
+   in parallel, as the latter require synchronization and create more
+   complex failure situations that have to be cleaned up by additional
+   code.
 
    [DY: Potential drafts that seem like they would be useful to
    reference include:
@@ -419,14 +532,44 @@ Internet-Draft          Using DiffServ with RTP                June 2014
 
 4.  Recommendations
 
-   TODO
+   The only use of multiple standardized PHBs and DSCPs that does not
+   cause reordering is within a single AF class.
 
-   [DY: Key point for DLB to write here - how does DiffServ apply to the
-   muxing over UDP described in the section above?]
+   [Editor's note: The following are preliminary and subject to change.
+   Please don't get seriously riled up, as this is a -00 draft!]
+   Outline:
 
-   [DLB: Within a stream for a transport protocol that is sensitive to
-   reordering, i.e., everything but UDP, SHOULD only mix DSCPs/PHBs
-   within a single AF class.]
+   o  SHOULD NOT use different PHBs and DSCPs that may cause reordering
+      within a single media flow.  If this is not done, significant
+      network reordering may overwhelm implementation assumptions about
+      limits on reordering r(e.g., available buffering) resulting in
+      poor user experiences and the like.
+
+   o  SHOULD NOT use different PHBs and DSCPs that may cause reordering
+      for an ordered stream within a reliable transport protocol (e.g.,
+      SCTP) or an ordered session for reliable transport protocols that
+      do not support ordered streams within a single session (e.g.,
+      SCTP), Receivers for such protocols interpret reordering as
+      indicating loss of out-of-order packets causing undesired
+      retransmission requests, and will infer congestion from
+      significant reordering, causing throughput reduction.
+
+
+
+
+York, et al.            Expires December 5, 2014               [Page 10]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
+   o  MAY use different PHBs and DSCPs that cause reordering within a
+      single UDP 5-tuple, subject to the above constraints.  The service
+      differentiation provided by such usage is unreliable, as it may be
+      removed at network boundaries for the reasons described in
+      Section 2.4 above.
+
+   o  SHOULD NOT rely on end-to-end preservation of DSCPs or of drop
+      precedence distinctions within an AF class, see Section 2.4 above.
 
 5.  RTCWEB Examples
 
@@ -442,13 +585,6 @@ Internet-Draft          Using DiffServ with RTP                June 2014
 7.  IANA Considerations
 
    This document includes no request to IANA.
-
-
-
-York, et al.           Expires December 05, 2014                [Page 8]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
 
 8.  Security Considerations
 
@@ -468,17 +604,32 @@ Internet-Draft          Using DiffServ with RTP                June 2014
 
 9.2.  Informative References
 
-   [RFC2474]  Nichols, K., Blake, S., Baker, F., and D.L. Black,
+   [RFC2474]  Nichols, K., Blake, S., Baker, F., and D. Black,
               "Definition of the Differentiated Services Field (DS
               Field) in the IPv4 and IPv6 Headers", RFC 2474, December
               1998.
 
-   [RFC2475]  Blake, S., Black, D.L., Carlson, M.A., Davies, E., Wang,
-              Z., and W. Weiss, "An Architecture for Differentiated
+
+
+
+
+York, et al.            Expires December 5, 2014               [Page 11]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
+
+   [RFC2475]  Blake, S., Black, D., Carlson, M., Davies, E., Wang, Z.,
+              and W. Weiss, "An Architecture for Differentiated
               Services", RFC 2475, December 1998.
 
    [RFC2597]  Heinanen, J., Baker, F., Weiss, W., and J. Wroclawski,
               "Assured Forwarding PHB Group", RFC 2597, June 1999.
+
+   [RFC2697]  Heinanen, J. and R. Guerin, "A Single Rate Three Color
+              Marker", RFC 2697, September 1999.
+
+   [RFC2698]  Heinanen, J. and R. Guerin, "A Two Rate Three Color
+              Marker", RFC 2698, September 1999.
 
    [RFC2914]  Floyd, S., "Congestion Control Principles", BCP 41, RFC
               2914, September 2000.
@@ -487,24 +638,18 @@ Internet-Draft          Using DiffServ with RTP                June 2014
               of Explicit Congestion Notification (ECN) to IP", RFC
               3168, September 2001.
 
-   [RFC3246]  Davie, B., Charny, A., Bennet, J.C.R., Benson, K., Le
-              Boudec, J.Y., Courtney, W., Davari, S., Firoiu, V., and D.
+   [RFC3246]  Davie, B., Charny, A., Bennet, J., Benson, K., Le Boudec,
+              J., Courtney, W., Davari, S., Firoiu, V., and D.
               Stiliadis, "An Expedited Forwarding PHB (Per-Hop
               Behavior)", RFC 3246, March 2002.
+
+   [RFC3550]  Schulzrinne, H., Casner, S., Frederick, R., and V.
+              Jacobson, "RTP: A Transport Protocol for Real-Time
+              Applications", STD 64, RFC 3550, July 2003.
 
    [RFC3662]  Bless, R., Nichols, K., and K. Wehrle, "A Lower Effort
               Per-Domain Behavior (PDB) for Differentiated Services",
               RFC 3662, December 2003.
-
-
-
-
-
-
-York, et al.           Expires December 05, 2014                [Page 9]
-
-Internet-Draft          Using DiffServ with RTP                June 2014
-
 
    [RFC4594]  Babiarz, J., Chan, K., and F. Baker, "Configuration
               Guidelines for DiffServ Service Classes", RFC 4594, August
@@ -515,6 +660,19 @@ Internet-Draft          Using DiffServ with RTP                June 2014
               RFC 5865, May 2010.
 
 Authors' Addresses
+
+
+
+
+
+
+
+
+
+York, et al.            Expires December 5, 2014               [Page 12]
+
+Internet-Draft           Using DiffServ with RTP               June 2014
+
 
    Dan York (editor)
    Internet Society
@@ -546,6 +704,8 @@ Authors' Addresses
    Email: fluffy@cisco.com
 
 
+   Paul Jones
+   Cisco
 
 
 
@@ -556,4 +716,13 @@ Authors' Addresses
 
 
 
-York, et al.           Expires December 05, 2014               [Page 10]
+
+
+
+
+
+
+
+
+
+York, et al.            Expires December 5, 2014               [Page 13]

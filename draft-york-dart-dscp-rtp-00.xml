@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="US-ASCII"?>
-
 <!DOCTYPE rfc SYSTEM "http://xml2rfc.tools.ietf.org/authoring/rfc2629.dtd" [
 <!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC2474 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2474.xml">
 <!ENTITY RFC2475 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2475.xml">
 <!ENTITY RFC2597 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2597.xml">
+<!ENTITY RFC2697 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2697.xml">
+<!ENTITY RFC2698 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2698.xml">
 <!ENTITY RFC2914 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2914.xml">
 <!ENTITY RFC3168 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
 <!ENTITY RFC3246 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3246.xml">
 <!ENTITY RFC3260 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3260.xml">
+<!ENTITY RFC3550 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3550.xml">
 <!ENTITY RFC3662 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3662.xml">
 <!ENTITY RFC4594 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4594.xml">
 <!ENTITY RFC5865 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5865.xml">
@@ -22,44 +24,50 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-
 <!-- Change the title here -->
-
 <rfc category="std" docName="draft-york-dart-dscp-rtp-00" ipr="trust200902">
-  
   <front>
-
     <title abbrev="Using DiffServ with RTP">Using Differentiated Services
     (DiffServ) With Real-time Communications Protocols</title>
 
-
-    <author fullname="Dan York" initials="D." surname="York" role="editor">
+    <author fullname="Dan York" initials="D." role="editor" surname="York">
       <organization>Internet Society</organization>
+
       <address>
         <postal>
           <street/>
+
           <city>Keene</city>
+
           <region>N.H.</region>
+
           <country>USA</country>
         </postal>
+
         <phone>+1-802-735-1624</phone>
+
         <email>dyork@lodestar2.com</email>
       </address>
     </author>
-    
+
     <author fullname="David Black" initials="D." surname="Black">
       <organization>EMC</organization>
 
       <address>
         <postal>
           <street>176 South Street</street>
+
           <city>Hopkinton</city>
+
           <region>MA</region>
+
           <code>01748</code>
+
           <country>USA</country>
         </postal>
 
         <phone>+1 508 293-7953</phone>
+
         <email>david.black@emc.com</email>
       </address>
     </author>
@@ -70,14 +78,47 @@
       <address>
         <postal>
           <street>170 West Tasman Drive</street>
+
           <street>MS: SJC-21/2</street>
+
           <city>San Jose</city>
+
           <region>CA</region>
+
           <code>95134</code>
+
           <country>USA</country>
         </postal>
+
         <phone>+1 408 421-9990</phone>
+
         <email>fluffy@cisco.com</email>
+      </address>
+    </author>
+
+    <author fullname="Paul Jones" initials="P." surname="Jones">
+      <organization>Cisco</organization>
+
+      <address>
+        <postal>
+          <street/>
+
+          <city/>
+
+          <region/>
+
+          <code/>
+
+          <country/>
+        </postal>
+
+        <phone/>
+
+        <facsimile/>
+
+        <email/>
+
+        <uri/>
       </address>
     </author>
 
@@ -130,20 +171,70 @@
     </section>
 
     <section anchor="Background" title="Background">
-      <t>[Editor's note: Should this section include a general description of
-      real-time communications, including RTCWEB?]</t>
+      <t>Real-time communications enables communication in real-time over an
+      IP network using various communication modalities, including voice,
+      video, text, content sharing, etc. It is possible to utilize any one or
+      more modalities in parallel in order to provide for a richer
+      communication experience.</t>
 
-      <t>[Editor's note: The following paragraph needs to be expanded to
-      better characterize the variety of types of traffic, and probably
-      generalize beyond RTP.]</t>
+      <t>Perhaps the simplest example of real-time communications is a voice
+      phone call placed over the Internet wherein an audio flow is transmitted
+      in each direction between two users. A more complex example might be an
+      immersive videoconferencing system that might have multiple video
+      screens, multiple cameras, multiple microphones, and some means of
+      sharing content. For such complex systems, there may be multiple media
+      flows that may be sent over a single IP address and port or transmitted
+      over different IP addresses and ports.</t>
 
-      <t>For real-time network communication, the network traffic consists of
-      RTP streams (or other real-time media (sub-)flows) that are carried in
-      transport protocols such as UDP, TCP and SCTP over IP and network links.
-      Multiple transport protocols may be used via encapsulation, e.g., SCTP
-      in UDP. DiffServ functionality is applied via use of DSCPs in the DS
-      field of the IP headers to select different per-hop forwarding behaviors
-      at network nodes.</t>
+      <t>Generally, the protocol used to send real time media flows is the
+      Real-Time Transport Protocol (RTP)<xref target="RFC3550"/>. RTP defines
+      the mechanism by which real-time data is transmitted between hosts on
+      the Internet. With most applications, a single media type (e.g., audio)
+      is transmitted within a single RTP session. However, it is possible to
+      transmit multiple, distinct media flows over the same RTP session. This
+      is referred to as RTP multiplexing.</t>
+
+      <t>Other transport protocols may be used to transmit real-time data or
+      near-real-time data, however. For example, SCTP might be utilized to
+      carry application sharing or whiteboarding information as part of an
+      overall interaction that includes real time media flows. These
+      additional protocols can be multiplexed with one or more RTP sessions
+      via UDP encapsulation, thereby using a single pair of UDP ports. The
+      RTCWEB protocol suite [XXX add reference to rtcweb-transports draft here
+      XXX] provides an example that can employ two layers of
+      multiplexing:<list style="numbers">
+          <t>Individual media flows are carried in individual RTP packet
+          streams that can multiplexed into a single RTP session (for
+          RTCWEB,an individual media flow is a MediaStreamTrack, and a
+          MediaStream man contain multiple MediaStreamTracks [XXX add
+          reference to W3C mediacapture-streams document here XXX]); and</t>
+
+          <t>One or more RTP session(s) multiplexed can be multiplexed with
+          other transport protocols via UDP encapsulation over a common pair
+          of UDP ports. The resulting unidirectional UDP flow is uniquely
+          identified by a 5-tuple, i.e., a combination of two IP addresses
+          (source and destination), two UDP ports (source and destination),
+          and the use of the UDP protocol.</t>
+        </list>The number of media and other transport flows in an overall
+      real-time interaction can be surprisingly large. While a voice flow and
+      a video flow are obvious, there could be separate media flows for each
+      of the cameras or microphones on a videoconferencing system. For each of
+      those video flows, and especially for layered video codecs, there might
+      be flows that carry spatial and temporal data separately from the base
+      layer. There might also be a flow that provides protection to a media
+      flow, using techniques like Forward Error Correction or redundancy.
+      Still another example for simulcast transmissions, such as where a video
+      flow is transmitted at high resolution and low resolution at the same
+      time. In this case, a media processing function might choose to send one
+      or the other or both downstream to a receiver based on bandwidth
+      availability or who the active speaker is in a multipoint conference.
+      Lastly, a transmitter might send the media flow using multiple encodings
+      (e.g., VP8 in parallel with H.264), such as to allow a media processing
+      function to select a media encoding that best matches the capabilities
+      of the receiver.</t>
+
+      <t>[XXX DLB: Dan or Paul need to check that all the flow examples make
+      sense as individual RTP packet streams. XXX]</t>
 
       <section anchor="DiffServ" title="Differentiated Services (DiffServ)">
         <t>The DiffServ architecture is intended to enable scalable service
@@ -203,10 +294,10 @@
           </list></t>
 
         <t>This document focuses on PHBs and the usage of DSCPs to obtain
-        those behaviors. In a network node's forwarding path, the DSCP
-        contained in a field in the IP packet header is mapped to a particular
-        forwarding treatment, or per-hop behavior (PHB) that specifies the
-        forwarding treatment.</t>
+        those behaviors. In a network node's forwarding path, the DSCP in a
+        field in the IP packet header is mapped to a particular forwarding
+        treatment, or per-hop behavior (PHB) that specifies the forwarding
+        treatment.</t>
 
         <t>A per-hop behavior (PHB) is a description of the externally
         observable forwarding behavior of a network node applied to network
@@ -321,7 +412,8 @@
         control.</t>
       </section>
 
-      <section title="Traffic Classifiers and DSCP Remarking">
+      <section anchor="TCs-Remarking"
+               title="Traffic Classifiers and DSCP Remarking">
         <t>[David: Main points to make here: Network core uses BA Classifier
         (DSCP only). Network edge uses MF classifier, typically 5-tuple,
         although RFC 2475 allows DSCP to be a classifier input. Remarking
@@ -348,7 +440,7 @@
         possible at any network boundary, including the first network node
         that traffic sent by a host encounters.</t>
 
-        <t>The traffic classifiers that are used for this purpose often do not
+        <t>The traffic classifiers that are used for remarking often do not
         look beyond the traffic's 5-tuple (source and destination IP
         addresses, transport protocol, source and destination ports). This is
         the case even though the definition of MF classifiers (Multi-Flow
@@ -360,9 +452,13 @@
         differentiation within the 5-tuple beyond the point at which this
         remarking occurs.</t>
 
-        <t>[Editor's note: Even an AF class doesn't fare well, as the
-        AF-&gt;AF remarking may be "color-blind" as opposed to "color-aware" -
-        not sure whether this level of detail belongs in this draft.]</t>
+        <t>In addition, remarking may remove application-level distinctions in
+        forwarding behavior - e.g., if multiple PHBs within an AF class are
+        used to distinguish different types of frames within a video flow,
+        token-bucket-based remarkers operating in Color-Blind mode (see <xref
+        target="RFC2697"/> and <xref target="RFC2698"/> for examples) may
+        remark solely based on flow rate and burst behavior, removing the drop
+        precedence distinctions specified by the source.</t>
 
         <t>Backbone and other carrier networks may employ a small number of
         DSCPs (e.g., less than half a dozen) in order to manage a small number
@@ -376,14 +472,49 @@
     </section>
 
     <section anchor="RTP" title="Background on Usage of RTP">
-      <t>(This section will provide explain about the needs of RTP.)</t>
+      <t>Section<xref format="counter" target="Background"/> explains how
+      media flows can be multiplexed over RTP sessions which can in turn be
+      multiplexed over UDP with other RTP sessions and flows generated by
+      other transport protocols. This section provides background on why this
+      level of media flow multiplexing is desirable. The rationale in this
+      section applies both to multiplexing of media flows in RTP sessions and
+      multiplexing of one or more RTP sessions with traffic from other
+      transport protocols via UDP encapsulation.</t>
 
-      <t>[Key point to DLB is *why* people want to do muxing in RTCWEB. Also
-      critical is the *terminology* used in RTCWEB for the different layers
-      and protocols so that DLB can use appropriate terms in response.]</t>
+      <t>Multiplexing reduces the number of ports utilized for real-time and
+      related communication in an overall interaction. While a single endpoint
+      might have plenty of ports available for communication, these media
+      flows are often traverse points in the network that are constrained on
+      the number of available ports. A good example is a NAT/FW device sitting
+      at the network edge. As the number of simultaneous protocol sessions
+      increases, so does the burden placed on these devices in order to
+      provide port mapping.</t>
 
-      <t>[DY: Potential drafts that seem like they would be useful to
-      reference include:</t>
+      <t>Another reason for multiplexing is to help reduce the time required
+      to establish bi-directional traffic flows. Since any two communicating
+      users might be situated behind different NAT/FW devices, it is necessary
+      to employ techniques like STUN/ICE/TURN in order to get traffic to flow
+      between the two devices. Performing the tasks required of STUN/ICE/TURN
+      take time and requiring an endpoint to perform these tasks for several
+      flows can increase the time required. While tasks for different flows
+      can be performed in parallel, it is nonetheless necessary for
+      applications to wait for all flows to be opened before communication
+      between to users can begin. Reducing the number of STUN/ICE/TURN steps
+      reduces the probability of losing a packet and introducing delay in
+      setting up a communication session. Further, reducing the number of
+      STUN/ICE/TURN tasks means that there is a lower burden placed on the
+      STUN and TURN servers. [XXX need STUN/TURN/ICE references XXX]</t>
+
+      <t>Multiplexing may reduce the complexity and resulting load on an
+      endpoint. A single instance of STUN/ICE/TURN is simpler to execute and
+      manage than multiple instances STUN/ICE/TURN operations happening in
+      parallel, as the latter require synchronization and create more complex
+      failure situations that have to be cleaned up by additional code.</t>
+
+      <t><!--[DLB moved the next paragraph of Paul's text from his email up into section 2.1]
+
+-->[DY: Potential drafts that seem like they would be useful to reference
+      include:</t>
 
       <t>-
       http://tools.ietf.org/html/draft-ietf-mmusic-sdp-bundle-negotiation-05</t>
@@ -407,35 +538,40 @@ Mention of jitter buffers.
 Mention data channel as well as RTP.
 
 -->
-
-      <!--
--->
     </section>
 
     <section anchor="Recommendations" title="Recommendations">
-      <t>TODO</t>
+      <t>The only use of multiple standardized PHBs and DSCPs that does not
+      cause reordering is within a single AF class.</t>
 
-      <!--David: Moving this sub-section from Section 3 to Recommendations in Section 4
+      <t>[Editor's note: The following are preliminary and subject to change.
+      Please don't get seriously riled up, as this is a -00 draft!]
+      Outline:<list style="symbols">
+          <t>SHOULD NOT use different PHBs and DSCPs that may cause reordering
+          within a single media flow. If this is not done, significant network
+          reordering may overwhelm implementation assumptions about limits on
+          reordering r(e.g., available buffering) resulting in poor user
+          experiences and the like.</t>
 
-    <section anchor="fivetuple" title="RTP, UDP, DiffServ and 5-tuples">
-    <t>[DLB: This is where the RTP/UDP multiplex onto a single 5-tuple
-   discussion goes.  It gets followed by a warning that MF classifiers
-   (see RFC 2475) are unlikely to look at DSCP within 5-tuple, and hence
-   are likely to remove differentation within 5-tuple - this gets put in
-   context by pointing out that DSCP remarking is common, and hence
-   differentiation can vanish for all sorts of other reasons.]</t>
-    </section>
--->
+          <t>SHOULD NOT use different PHBs and DSCPs that may cause reordering
+          for an ordered stream within a reliable transport protocol (e.g.,
+          SCTP) or an ordered session for reliable transport protocols that do
+          not support ordered streams within a single session (e.g., SCTP),
+          Receivers for such protocols interpret reordering as indicating loss
+          of out-of-order packets causing undesired retransmission requests,
+          and will infer congestion from significant reordering, causing
+          throughput reduction.</t>
 
-      <!--
--->
+          <t>MAY use different PHBs and DSCPs that cause reordering within a
+          single UDP 5-tuple, subject to the above constraints. The service
+          differentiation provided by such usage is unreliable, as it may be
+          removed at network boundaries for the reasons described in Section
+          <xref format="counter" target="TCs-Remarking"/> above.</t>
 
-      <t>[DY: Key point for DLB to write here - how does DiffServ apply to the
-      muxing over UDP described in the section above?]</t>
-
-      <t>[DLB: Within a stream for a transport protocol that is sensitive to
-      reordering, i.e., everything but UDP, SHOULD only mix DSCPs/PHBs within
-      a single AF class.]</t>
+          <t>SHOULD NOT rely on end-to-end preservation of DSCPs or of drop
+          precedence distinctions within an AF class, see Section <xref
+          format="counter" target="TCs-Remarking"/> above.</t>
+        </list></t>
     </section>
 
     <section anchor="RTCWEB" title="RTCWEB Examples">
@@ -490,11 +626,17 @@ Do we need to say anything about how munging DSCP can mess things up ?
 
       &RFC2597;
 
+      &RFC2697;
+
+      &RFC2698;
+
       &RFC2914;
 
       &RFC3168;
 
       &RFC3246;
+
+      &RFC3550;
 
       &RFC3662;
 
