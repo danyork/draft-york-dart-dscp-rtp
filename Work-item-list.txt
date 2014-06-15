@@ -39,5 +39,7 @@
 - Rework classifier discussion to make it clear what happens at edges and
 	core of diffserv domains.  Use of MF and BA acronyms for classifiers
 	is probably not clear to diffserv non-experts.
+- Add list of people whose comments we've used.
+
 
 
