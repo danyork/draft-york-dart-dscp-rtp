@@ -1,0 +1,43 @@
+-- List of things that need attention in the dart-dscp-rtp draft.
+
+- Add Paul Jones' example text to Section 5 (labelled for Section 4 in Paul's email)
+- Cite and use definition of "RTP Packet Stream" from
+	draft-ietf-avtext-rtp-grouping-taxonomy, section 2.1.10
+- Clean up usage of "media flow" vs. "packet stream".  Latter
+	should be used for protocol behavior (e.g., in Section 4),
+	as "RTP packet stream".
+- Add statement that a MediaStream could be carried as a single packet stream.
+- General editing pass for typos, especially spacing problems.  Pick
+	up Harald's "initial review" editorial comments.
+- Blunter text in Section 2.4 about loss of differentiation via remarking.
+	Brian Carpenter send some useful text to the list.
+- Strengthen Section 2.4 language to make it clear that DSCPs/PHBs are
+	*absolutely not* end-to-end, carrier/	backbone networks may not
+	support many of them, and remarking to best effort (DF, all-zero DSCP)
+	is a likely occurrence.  Add Brian Carpenter's point that 5-tuple
+	classifiers ignore encapsulated protocol headers (as do DSCP classifiers).
+- Add some sort of suggestion that better results are likely if fewer
+	PHBs are used and some version of the "everything depends on the network(s)"
+	comment - i.e., nothing can be assured in general, depending on how the
+	networks involved are configured for DiffServ.  Ruediger's email on
+	"viewpoint of one network provider" may help.
+- Edits from Brian Carpenter's private email to authors.
+- Rework text on what can be multiplexed on a UDP 5-tuple when
+	list discussion concludes:
+	+ Cannot multiplex more than one RTP session.  For now, reference
+		expired I-D.westerlund-avtcore-transport-multiplexing, can remove
+		that reference later.
+	+ Unclear whether one or more DTLS sessions can be multiplexed.
+- Add a mention of IPv6 flow label and 6-tuple as an aside, stick w/5-tuple
+	term in this draft for clarity.
+- Add statement that higher numbered AF classes are "better" - see AF RFC
+	for language to use.
+- UDP encapsulation - make it clear that encapsulated protocol (e.g., SCTP)
+	may be sensitive to reordering.
+- Add section on real-time traffic sensitivity to reordering, starting from
+	Harald's text.
+- Rework classifier discussion to make it clear what happens at edges and
+	core of diffserv domains.  Use of MF and BA acronyms for classifiers
+	is probably not clear to diffserv non-experts.
+
+
