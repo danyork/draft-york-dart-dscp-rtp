@@ -1,17 +1,14 @@
 -- List of things that need attention in the dart-dscp-rtp draft.
 
-- Add Paul Jones' example text to Section 5 (labelled for Section 4 in Paul's email)
-- Cite and use definition of "RTP Packet Stream" from
-	draft-ietf-avtext-rtp-grouping-taxonomy, section 2.1.10
 - Clean up usage of "media flow" vs. "packet stream".  Latter
 	should be used for protocol behavior (e.g., in Section 4),
-	as "RTP packet stream".
-- Add statement that a MediaStream could be carried as a single packet stream.
+	as "RTP packet stream".  Mostly done, need to carefully check
+	all usage of "stream" and "flow".
 - General editing pass for typos, especially spacing problems.  Pick
 	up Harald's "initial review" editorial comments.
-- Blunter text in Section 2.4 about loss of differentiation via remarking.
+- Blunter text in Section 2.4 (now 2.5) about loss of differentiation via remarking.
 	Brian Carpenter send some useful text to the list.
-- Strengthen Section 2.4 language to make it clear that DSCPs/PHBs are
+- Strengthen Section 2.4 (now 2.5) language to make it clear that DSCPs/PHBs are
 	*absolutely not* end-to-end, carrier/	backbone networks may not
 	support many of them, and remarking to best effort (DF, all-zero DSCP)
 	is a likely occurrence.  Add Brian Carpenter's point that 5-tuple
