@@ -15,11 +15,14 @@
 <!ENTITY RFC2914 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2914.xml">
 <!ENTITY RFC3168 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
 <!ENTITY RFC3246 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3246.xml">
-<!ENTITY RFC3260 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3260.xml">
+<!ENTITY RFC3270 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3270.xml">
 <!ENTITY RFC3550 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3550.xml">
 <!ENTITY RFC3662 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3662.xml">
 <!ENTITY RFC4103 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4103.xml">
 <!ENTITY RFC4594 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4594.xml">
+<!ENTITY RFC5127 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5127.xml">
+<!ENTITY RFC5129 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5129.xml">
+<!ENTITY RFC5462 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5462.xml">
 <!ENTITY RFC5865 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5865.xml">
 <!ENTITY RFC6437 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6437.xml">
 <!ENTITY W3C.WD-mediacapture-streams-20130903 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.WD-mediacapture-streams-20130903.xml">
@@ -201,9 +204,9 @@
         Transport Protocol <xref target="RFC3550">(RTP)</xref>. RTP defines a
         common encapsulation format and handling rules for real-time data
         transmitted over the Internet. RTP terminology usage has been
-        inconsistent, for example, this document on RTP grouping
-        terminology<xref target="I-D.ietf-avtext-rtp-grouping-taxonomy"/>
-        observes that:</t>
+        inconsistent, for example, this document on RTP grouping terminology
+        <xref target="I-D.ietf-avtext-rtp-grouping-taxonomy"/> observes
+        that:</t>
 
         <t><list style="empty">
             <t><xref target="RFC3550">RFC 3550</xref> uses the terms media
@@ -291,15 +294,15 @@
 
         <t><xref target="I-D.westerlund-avtcore-transport-multiplexing"/>
         proposes to allow multiple RTP sessions to be multiplexed over a
-        single UDP 5-tuple; the future of that expired propsal is
+        single UDP 5-tuple; the future of that expired proposal is
         uncertain.</t>
 
-        <t>For IPv6, addition of the flow label results in a 6-tuple, but in
-        practice, use of the flow label is unlikely to result in a finer-grain
-        traffic subset than a 5-tuple (e.g., the flow label may represent the
-        combination of two ports an the UDP protocol), see <xref
-        target="RFC6437"/>. For that reason, discussion in this draft focuses
-        on UDP 5-tuples.</t>
+        <t>For IPv6, addition of the flow label <xref target="RFC6437"/> to
+        5-tuples results in 6-tuples, but in practice, use of a flow label is
+        unlikely to result in a finer-grain traffic subset than the
+        corresponding 5-tuple (e.g., the flow label is likely to represent the
+        combination of two ports with use of the UDP protocol). For that
+        reason, discussion in this draft focuses on UDP 5-tuples.</t>
 
         <t>[Editor's Note: Multiple RTP sessions cannot be multiplexed on the
         same UDP 5-tuple, but what about multiple DTLS sessions for RTP? RFC
@@ -458,15 +461,16 @@
         significant reordering - such reordering may be (mis-)interpreted as
         indicating congestion-caused packet loss, causing a reduction in
         transmission rate. This remains true even when ECN <xref
-        target="RFC3168"/> is in use. ECN receivers are required to treat
-        missing packets as potential indications of congestion because:</t>
+        target="RFC3168"/> is in use, as ECN receivers are required to treat
+        missing packets as potential indications of congestion. This
+        requirement is based on two factors:</t>
 
         <t><list style="symbols">
             <t>Severe congestion may cause ECN-capable network nodes to drop
             packets, and</t>
 
-            <t>ECN traffic may transit network nodes that do not support ECN
-            and hence drop packets to signal congestion.</t>
+            <t>ECN traffic may be forwarded by network nodes that do not
+            support ECN and hence use packet drops to indicate congestion.</t>
           </list>Congestion control is an important aspect of the Internet
         architecture, see <xref target="RFC2914"/> for further discussion.</t>
 
@@ -481,11 +485,12 @@
 
         <t>UDP is the primary transport protocol that is not sensitive to
         reordering in the network, because it does not provide reliable
-        delivery or congestion control.</t>
-
-        <t>[Editor's note: Need to discuss UDP encapsulation of other
-        protocols - every one (RTP packet streams, SCTP) is reordering
-        sensitive.]</t>
+        delivery or congestion control. On the other hand, when UDP is used to
+        encapsulate other protocols (e.g., as is the case for RTCWEB, see
+        <xref target="RTP"/>), the reordering considerations for the
+        encapsulated protocols apply. For RTCWEB example in particular, every
+        encapsulated protocol (i.e., RTP, SCTP and TCP) is sensitive to
+        reordering as further discussed in this document.</t>
       </section>
 
       <section anchor="DiffServandRTC"
@@ -498,38 +503,35 @@
         contrast to reliable delivery protocols that usually react to all
         reordering.</t>
 
-        <t>Jitter buffers at recievers of real-time communication play an
-        important role in the effect of reordering on real time
-        communications:<list style="symbols">
-            <t>Minor packet reordering that is contained within a receiver
-            jitter buffer generally has no effect on rendering of the received
-            RTP packet stream.</t>
+        <t>Receiver jitter buffers have important roles in the effect of
+        reordering on real time communications:<list style="symbols">
+            <t>Minor packet reordering that is contained within a jitter
+            buffer usually has no effect on rendering of the received RTP
+            packet stream.</t>
 
             <t>Packet reordering that exceeds the capacity of a jitter buffer
-            causes user-perceptible quality problems (e.g., glitches, noise)
-            for delay sensitive communication, such as interactive
+            can cause user-perceptible quality problems (e.g., glitches,
+            noise) for delay sensitive communication, such as interactive
             conversations. Interactive real-time communication implementations
             often choose to discard data that is sufficiently late to prevent
-            it from being being rendered in source stream order.
-            Retransmission is counterproductive when the retransmitted packets
-            are likely to arrive beyond the tail end of the jitter buffer and
-            hence be discarded, hence such interactive real-time
-            implementations often do not use retransmission.</t>
+            it from being rendered in source stream order, making
+            retransmission counterproductive. For this reason, implementations
+            of interactive real-time communication often do not use
+            retransmission.</t>
 
-            <t>In contrast, replay of recorded media can and often does employ
-            significantly larger jitter buffers than interative conversations,
-            making replay significantly more tolerant to reordering, but the
-            size of the jitter buffer imposes an upper bound on this
-            tolerance. Retransmission can be used in this case because the
-            jitter buffer may be significantly larger than the round-trip
-            latency for retransmission.</t>
-          </list></t>
-
-        <t>Network packet reordering caused by use of differetn DSCPs has no
-        effective upper bound, and can exceed the size of any reasonable
-        jitter buffer - in practice, the size of jitter buffers for replay is
-        often limited by the amount of time that a human is willing to wait
-        for replay to start.</t>
+            <t>In contrast, replay of recorded media can typically uses
+            significantly larger jitter buffers than can be tolerated for
+            interactive conversations, with the result that replay is more
+            tolerant to reordering than interactive conversations. The size of
+            the jitter buffer imposes an upper bound on replay tolerance to
+            reordering, but does enable retransmission to be used when the
+            jitter buffer is significantly larger than the amount of data that
+            will arrive during the round-trip latency for retransmission.</t>
+          </list>Network packet reordering caused by use of different DSCPs
+        has no effective upper bound, and can exceed the size of any
+        reasonable jitter buffer - in practice, the size of jitter buffers for
+        replay is limited by external factors such as the amount of time that
+        a human is willing to wait for replay to start.</t>
       </section>
 
       <section anchor="TCs-Remarking"
@@ -563,15 +565,15 @@
         traffic based solely on DSCPs, but may perform finer grain traffic
         conditioning similar to that performed by edge nodes.</t>
 
-        <t>So, for two arbitrary network users, there's no assurance that the
-        DSCP set at the source will be preserved and presented at the
-        destination. On the contrary, it's quite likely that the DSCP will be
-        set to zero (e.g., at the boundary of a network operator that
-        distrusts or does not use the DSCP field) or to a value deemed
-        suitable by an ingress (MF) classifier for whatever 5-tuple it
-        carries. DiffServ classifiers generally ignore embedded protocol
-        headers (e.g., for SCTP or RTP embedded in UTP, classification will be
-        only on the outer UDP header).</t>
+        <t>So, for two arbitrary network endpoints, there can be no assurance
+        that the DSCP set at the source endpoint will be preserved and
+        presented at the destination endpoint. On the contrary, it is quite
+        likely that the DSCP will be set to zero (e.g., at the boundary of a
+        network operator that distrusts or does not use the DSCP field) or to
+        a value deemed suitable by an ingress (MF) classifier for whatever
+        5-tuple it carries. DiffServ classifiers generally ignore embedded
+        protocol headers (e.g., for SCTP or RTP embedded in UDP,
+        classification will be only on the outer UDP header).</t>
 
         <t>In addition, remarking may remove application-level distinctions in
         forwarding behavior - e.g., if multiple PHBs within an AF class are
@@ -586,9 +588,15 @@
         of traffic aggregates; hosts that use a larger number of DSCPs can
         expect to find that much of their intended differentiation is removed
         by such networks. Better results may be achieved when DSCPs are used
-        to spread traffic among a smaller number of a smaller number of
-        DiffServ-based traffic subsets or aggregates, see <xref
-        target="I-D.geib-tsvwg-diffserv-intercon"/> for one proposal.</t>
+        to spread traffic among a smaller number of DiffServ-based traffic
+        subsets or aggregates, see <xref
+        target="I-D.geib-tsvwg-diffserv-intercon"/> for one proposal. This is
+        of particular importance for MPLS-based networks due to the limited
+        size of the Traffic Class (TC) field in an MPLS label <xref
+        target="RFC5462"/> that is used to carry DiffServ information and the
+        use of that TC field for other purposes, e.g., ECN <xref
+        target="RFC5129"/>. For further discussion on use of DiffServ with
+        MPLS, see <xref target="RFC3270"/> and <xref target="RFC5127"/>.</t>
       </section>
     </section>
 
@@ -647,23 +655,24 @@ reordered.
       network reordering among packets marked with different DSCPs is use of
       PHBs within a single AF class. All other uses of multiple PHBs and/or
       the class selector DSCPs allow network reordering of packets that are
-      marked with different DSCPs.</t>
-
-      <t>[Editor's note: The following are subject to change.]</t>
-
-      <t>Applications and other traffic sources:<list style="symbols">
+      marked with different DSCPs. Based on this and the foregoing discussion,
+      the following requirements apply to use of DiffServ with real-time
+      communications - applications and other traffic sources:<list
+          style="symbols">
           <t>SHOULD NOT use different PHBs and DSCPs that may cause reordering
           within a single RTP packet stream. If this is not done, significant
           network reordering may overwhelm implementation assumptions about
-          limits on reordering (e.g., available buffering) resulting in poor
-          user experiences and the like.</t>
+          limits on reordering, e.g., jitter buffer size, causing poor user
+          experiences, see Section <xref target="DiffServandRTC"/> above.</t>
 
           <t>SHOULD NOT use different PHBs and DSCPs that may cause reordering
           within an ordered session for a reliable transport protocol (e.g.,
           TCP, SCTP) , Receivers for such protocols interpret reordering as
           indicating loss of out-of-order packets causing undesired
           retransmission requests, and will infer congestion from significant
-          reordering, causing throughput reduction.</t>
+          reordering, causing throughput reduction. This requirement applies
+          to both unencapsulated and encapsulated (e.g., via UDP) uses of
+          reliable transport protocols.</t>
 
           <t>MAY use different PHBs and DSCPs that cause reordering within a
           single UDP 5-tuple, subject to the above constraints. The service
@@ -684,29 +693,38 @@ reordered.
           to select a "less than best effort" PHB is inconsistent. Further,
           some networks may treat CS1 as providing "better than best effort"
           forwarding behavior.</t>
-        </list>[Editor's Note: Add text to indicate that differentiation may
-      be useful from source to point at which the differentiation is removed -
-      e.g., within residential access network, even if backbone removes,
-      because residential access network, including home networking equipment
-      is a likely chokepoint location.]</t>
+        </list></t>
+
+      <t>There is no requirement in this document for network operators to
+      differentiate traffic in any fashion. Networks may support all of the
+      PHBs discussed herein, classify EF and AFxx traffic identically, or even
+      remark all traffic to best effort at some ingress points. Nonetheless,
+      it is useful for network endpoints to provide finer granularity QoS
+      marking on packets for the benefit of networks that offer QoS service
+      differentiation. A specific example is that traffic originating from a
+      browser may benefit from QoS service differentiation in within-building
+      and residential access networks, as those are likely bottleneck
+      locations for traffic sent to the public Internet (e.g., due to customer
+      aggregation onto common links and/or speed differences among links used
+      by the same traffic).</t>
     </section>
 
     <section anchor="Examples" title="Examples">
       <t>For real-time communications, one might want to mark the audio
-      packets using EF and the video packets as AF41. However, in a
-      videoconference receiving the audio packets ahead of the video is not
-      useful because lip sync is necessary between audio and video. It may
-      still be desirable to send audio with a PHB htat provides better
-      service, because early arrival of audio helps assure smooth audio
-      rendering, which is significantly more important than fully faithful
-      video rendering. There are limits, as some devices have difficulties in
-      synchronizizing voice and video when packets that need to be rendered
-      together arrive at significantly different times. It makes more sense to
-      use different PHBs when the audio and video source streams do not share
-      a strict timing relationship. For example, sharing H.264 video content
-      via video-only playback does not need precise synchronization with
-      videoconference audio, and could use a different PHB, as shared content
-      is more tolerant to jitter, loss, and delay.</t>
+      packets using EF and the video packets as AF41. However, in a video
+      conference receiving the audio packets ahead of the video is not useful
+      because lip sync is necessary between audio and video. It may still be
+      desirable to send audio with a PHB that provides better service, because
+      early arrival of audio helps assure smooth audio rendering, which is
+      significantly more important than fully faithful video rendering. There
+      are limits, as some devices have difficulties in synchronizing voice and
+      video when packets that need to be rendered together arrive at
+      significantly different times. It makes more sense to use different PHBs
+      when the audio and video source streams do not share a strict timing
+      relationship. For example, sharing H.264 video content via video-only
+      playback does not need precise synchronization with video conference
+      audio, and could use a different PHB, as shared content is more tolerant
+      to jitter, loss, and delay.</t>
 
       <t>[Editor's Note: Paul Jones needs to check "video-only playback" in
       the above.]</t>
@@ -735,22 +753,11 @@ reordered.
       suffices because such real-time text has loose timing requirements; RFC
       4103 recommends sending text in chunks every 300ms. Such text is
       technically real-time, but does not need a PHB promising differentiated
-      network treatement, in contrast to audio or video.</t>
+      network treatment, in contrast to audio or video.</t>
 
       <!--Explain why the we can't do local network configuration of values used - where?
 
 -->
-    </section>
-
-    <section title="new section">
-      <t/>
-    </section>
-
-    <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>This document is the result of many conversations that have occurred
-      within multiple working groups in the RAI and TRANSPORT areas. Many
-      thanks to Harald Alvestrand, Erin Bournival, Brian Carpenter, Ruediger
-      Geib and James Polk for their reviews and input.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -758,10 +765,26 @@ reordered.
     </section>
 
     <section anchor="Security" title="Security Considerations">
-      <t>[Editor's Note: There are security considerations, start by pointing
-      to security considerations in the relevant references. Multiplexing
-      multiple transport protocols onto a single UDP 5-tuple has firewall
-      configuration and traffic inspection/monitoring implications.]</t>
+      <t>[Editor's note: Good start, almost certainly needs more text.]</t>
+
+      <t>The security considerations for all of the technologies discussed in
+      this document apply; in particular see the security considerations for
+      RTP <xref target="RFC3550"/> and DiffServ <xref target="RFC2474"/> <xref
+      target="RFC2475"/>. Multiplexing of multiple protocols onto a single UDP
+      5-tuple via encapsulation has implications for network functionality
+      that is based on monitoring or inspection of individual protocol flows,
+      e.g., firewalls and traffic monitoring systems. When implementations of
+      such functionality lack visibility into encapsulated traffic (likely for
+      many current implementations), it may be difficult or impossible to
+      apply network security policy and controls at a finer grain than the
+      overall UDP 5-tuple.</t>
+    </section>
+
+    <section anchor="Acknowledgements" title="Acknowledgements">
+      <t>This document is the result of many conversations that have occurred
+      within multiple working groups in the RAI and Transport areas. Many
+      thanks to Harald Alvestrand, Erin Bournival, Brian Carpenter, Ruediger
+      Geib and James Polk for their reviews and input.</t>
     </section>
   </middle>
 
@@ -783,8 +806,6 @@ reordered.
     </references>
 
     <references title="Informative References">
-      <!--Need to decide which of these references are normative.-->
-
       &I-D.geib-tsvwg-diffserv-intercon-05;
 
       &I-D.ietf-avtext-rtp-grouping-taxonomy-01;
@@ -807,9 +828,17 @@ reordered.
 
       &RFC3168;
 
+      &RFC3270;
+
       &RFC4103;
 
       &RFC4594;
+
+      &RFC5127;
+
+      &RFC5129;
+
+      &RFC5462;
 
       &RFC6437;
 
@@ -817,6 +846,8 @@ reordered.
     </references>
 
     <section title="Change History" toc="exclude">
+      <t>[To be removed before RFC publication.]</t>
+
       <t>Changes from draft-york-dart-dscp-rtp-00 to -01<list style="symbols">
           <t>Added examples (Section 5)</t>
 
@@ -828,6 +859,14 @@ reordered.
 
           <t>Added section on real-time communication interaction w/reordering
           based on text from Harald Alvestrand.</t>
+
+          <t>Strengthen warnings on loss of differentiation, but indicate that
+          differentiation may still be useful from source to point of loss.
+          Add a couple of related sentences on DiffServ and MPLS. Add
+          discussion of UDP-encapsulated protocols that are reordering
+          sensitive.</t>
+
+          <t>First version of security considerations, more to come.</t>
 
           <t>Many editorial changes</t>
         </list></t>
