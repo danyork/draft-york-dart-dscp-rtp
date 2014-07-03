@@ -5,6 +5,7 @@
 <!ENTITY I-D.ietf-rtcweb-overview-09 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-rtcweb-overview-09.xml">
 <!ENTITY I-D.ietf-rtcweb-rtp-usage-15 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-rtcweb-rtp-usage-15.xml">
 <!ENTITY I-D.ietf-rtcweb-transports-04 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-rtcweb-transports-04.xml">
+<!ENTITY I-D.petithuguenin-avtcore-rfc5764-mux-fixes-00 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-petithuguenin-avtcore-rfc5764-mux-fixes-00.xml">
 <!ENTITY I-D.westerlund-avtcore-transport-multiplexing-07 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-westerlund-avtcore-transport-multiplexing-07.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC2474 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2474.xml">
@@ -19,10 +20,13 @@
 <!ENTITY RFC3550 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3550.xml">
 <!ENTITY RFC3662 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3662.xml">
 <!ENTITY RFC4103 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4103.xml">
+<!ENTITY RFC4303 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4303.xml">
 <!ENTITY RFC4594 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4594.xml">
+<!ENTITY RFC5109 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5109.xml">
 <!ENTITY RFC5127 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5127.xml">
 <!ENTITY RFC5129 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5129.xml">
 <!ENTITY RFC5462 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5462.xml">
+<!ENTITY RFC5764 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml">
 <!ENTITY RFC5865 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5865.xml">
 <!ENTITY RFC6437 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6437.xml">
 <!ENTITY W3C.WD-mediacapture-streams-20130903 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.WD-mediacapture-streams-20130903.xml">
@@ -42,7 +46,7 @@
     <title abbrev="DiffServ and RT Communication">Differentiated Services
     (DiffServ) and Real-time Communication</title>
 
-    <author fullname="Dan York" initials="D." role="editor" surname="York">
+    <author fullname="Dan York" initials="D." surname="York">
       <organization>Internet Society</organization>
 
       <address>
@@ -150,10 +154,10 @@
       applying different forwarding treatments to packets whose IP headers are
       marked with different DiffServ Code Points (DSCPs). As a result, use of
       different DSCPs within a single traffic stream may cause transport
-      protocol interactions (e.g., due to reordering). In addition, DSCP
-      markings may be changed or removed between the traffic source and
-      destination. This document covers the implications of these DiffServ
-      aspects for real-time network communication, including RTCWEB.</t>
+      protocol interactions (e.g., reordering). In addition, DSCP markings may
+      be changed or removed between the traffic source and destination. This
+      document covers the implications of these DiffServ aspects for real-time
+      network communication, including RTCWEB.</t>
     </abstract>
   </front>
 
@@ -169,7 +173,7 @@
       applying different forwarding treatments to packets whose IP headers are
       marked with different DiffServ Code Points (DSCPs)<xref
       target="RFC2474"/>. As a result use of different DSCPs within a single
-      traffic stream may cause transport protocol interactions (e.g., due to
+      traffic stream may cause transport protocol interactions (e.g.,
       reordering). In addition, DSCP markings may be changed or removed
       between the traffic's source and destination. This document covers the
       implications of these DiffServ aspects for real-time network
@@ -187,7 +191,7 @@
     <section anchor="Background" title="Background">
       <t>Real-time communications enables communication in real-time over an
       IP network using voice, video, text, content sharing, etc. It is
-      possible to use one or more of these modalitites in parallel in order to
+      possible to use one or more of these modalities in parallel in order to
       provide a richer communication experience.</t>
 
       <t>A simple example of real-time communications is a voice call placed
@@ -203,10 +207,10 @@
         <t>The most common protocol used for real time media is the Real-Time
         Transport Protocol <xref target="RFC3550">(RTP)</xref>. RTP defines a
         common encapsulation format and handling rules for real-time data
-        transmitted over the Internet. RTP terminology usage has been
-        inconsistent, for example, this document on RTP grouping terminology
-        <xref target="I-D.ietf-avtext-rtp-grouping-taxonomy"/> observes
-        that:</t>
+        transmitted over the Internet. Unfortunately, RTP terminology usage
+        has been inconsistent. For example, this document on RTP grouping
+        terminology <xref target="I-D.ietf-avtext-rtp-grouping-taxonomy"/>
+        observes that:</t>
 
         <t><list style="empty">
             <t><xref target="RFC3550">RFC 3550</xref> uses the terms media
@@ -218,34 +222,33 @@
         terminology document with the following terms being of particular
         importance (see that terminology document for full definitions):<list
             style="hanging">
-            <t hangText="Source Stream">A reference clock synchronized, time
+            <t hangText="Source Stream:">A reference clock synchronized, time
             progressing, digital media stream.</t>
 
-            <t hangText="RTP Packet Stream">A stream of RTP packets containing
-            media data, which may be source data or redundant data. The RTP
-            Packet Stream is identified by an RTP synchronization source
-            (SSRC) belonging to a particular RTP session.</t>
+            <t hangText="RTP Packet Stream:">A stream of RTP packets
+            containing media data, which may be source data or redundant data.
+            The RTP Packet Stream is identified by an RTP synchronization
+            source (SSRC) belonging to a particular RTP session.</t>
           </list></t>
 
         <t>Media encoding and packetization of a source stream results in a
         source RTP packet stream plus zero or more redundancy RTP packet
         streams that provide resilience against loss of packets from the
         source RTP packet stream <xref
-        target="I-D.ietf-avtext-rtp-grouping-taxonomy"/>. With most
-        applications, a single media type (e.g., audio) is transmitted within
-        a single RTP session. However, it is possible to transmit multiple,
-        distinct source streams over the same RTP session as one or more
-        individual RTP packet streams (each). This is referred to as RTP
-        multiplexing.</t>
+        target="I-D.ietf-avtext-rtp-grouping-taxonomy"/>. Redundancy
+        information may also be carried in the same RTP packet stream as the
+        encoded source stream, e.g., see Section 7.2 of <xref
+        target="RFC5109"/>. With most applications, a single media type (e.g.,
+        audio) is transmitted within a single RTP session. However, it is
+        possible to transmit multiple, distinct source streams over the same
+        RTP session as one or more individual RTP packet streams. This is
+        referred to as RTP multiplexing.</t>
 
         <t>The number of source streams and RTP packet streams in an overall
         real-time interaction can be surprisingly large. In addition to a
         voice source stream and a video source stream, there could be separate
         source streams for each of the cameras or microphones on a
-        videoconferencing system. For each of those video source streams, and
-        especially for layered video codecs, there might be additional RTP
-        packet streams that carry spatial and temporal data separately from
-        the base layer. An noted above, there might also be separate
+        videoconferencing system. As noted above, there might also be separate
         redundancy RTP packet streams that provide protection to a source RTP
         packet stream, using techniques such as Forward Error Correction.
         Another example is simulcast transmission, where a video source stream
@@ -270,19 +273,19 @@
         target="I-D.ietf-rtcweb-transports"/> employs two layers of
         multiplexing:<list style="numbers">
             <t>Individual source streams are carried in one or more individual
-            RTP packet streams that can multiplexed into a single RTP session;
-            and</t>
+            RTP packet streams that can be multiplexed into a single RTP
+            session as described in <xref target="RFC3550"/>; and</t>
 
-            <t>A single RTP session could be multiplexed with other transport
-            protocols via UDP encapsulation over a common pair of UDP ports.
-            The resulting unidirectional UDP packet flow is uniquely
-            identified by a 5-tuple, i.e., a combination of two IP addresses
-            (source and destination), two UDP ports (source and destination),
-            and the use of the UDP protocol.</t>
-          </list></t>
-
-        <t>For RTCWEB,an individual source stream is a MediaStreamTrack, and a
-        MediaStream contains one or more MediaStreamTracks <xref
+            <t>An RTP session could be multiplexed with other protocols via
+            UDP encapsulation over a common pair of UDP ports as described in
+            <xref target="RFC5764"/> and <xref
+            target="I-D.petithuguenin-avtcore-rfc5764-mux-fixes"/>. The
+            resulting unidirectional UDP packet flow is identified by a
+            5-tuple, i.e., a combination of two IP addresses (source and
+            destination), two UDP ports (source and destination), and the use
+            of the UDP protocol.</t>
+          </list>For RTCWEB,an individual source stream is a MediaStreamTrack,
+        and a MediaStream contains one or more MediaStreamTracks <xref
         target="W3C.WD-mediacapture-streams-20130903"/>. A MediaStreamTrack is
         transmitted as a source RTP packet stream plus zero or more redundancy
         RTP packet streams, so a MediaStream that consists of one
@@ -307,6 +310,9 @@
         <t>[Editor's Note: Multiple RTP sessions cannot be multiplexed on the
         same UDP 5-tuple, but what about multiple DTLS sessions for RTP? RFC
         5764 appears to allow multiple DTLS sessions.]</t>
+
+        <t>[Editor's Note: Should RTCP multiplexing w/RTP be mentioned here,
+        as described in RFC 5761?]</t>
       </section>
 
       <section anchor="DiffServ"
@@ -447,8 +453,8 @@
         SCTP provides additional properties such as preservation of message
         boundaries, and the ability to avoid head-of-line blocking that may
         occur with TCP. In contrast, UDP is a basic unreliable datagram
-        protocol whose primary functionality is port-based multiplexing and
-        demultiplexing on top of IP.</t>
+        protocol that provides port-based multiplexing and demultiplexing on
+        top of IP.</t>
 
         <t>Transport protocols that provide reliable delivery (e.g., TCP,
         SCTP) are sensitive to network reordering of traffic. When a protocol
@@ -460,9 +466,9 @@
         when packets are lost, creating an additional sensitivity to
         significant reordering - such reordering may be (mis-)interpreted as
         indicating congestion-caused packet loss, causing a reduction in
-        transmission rate. This remains true even when ECN <xref
-        target="RFC3168"/> is in use, as ECN receivers are required to treat
-        missing packets as potential indications of congestion. This
+        transmission rate. This remains true even when <xref
+        target="RFC3168">ECN</xref> is in use, as ECN receivers are required
+        to treat missing packets as potential indications of congestion. This
         requirement is based on two factors:</t>
 
         <t><list style="symbols">
@@ -667,7 +673,7 @@ reordered.
 
           <t>SHOULD NOT use different PHBs and DSCPs that may cause reordering
           within an ordered session for a reliable transport protocol (e.g.,
-          TCP, SCTP) , Receivers for such protocols interpret reordering as
+          TCP, SCTP). Receivers for such protocols interpret reordering as
           indicating loss of out-of-order packets causing undesired
           retransmission requests, and will infer congestion from significant
           reordering, causing throughput reduction. This requirement applies
@@ -699,14 +705,15 @@ reordered.
       differentiate traffic in any fashion. Networks may support all of the
       PHBs discussed herein, classify EF and AFxx traffic identically, or even
       remark all traffic to best effort at some ingress points. Nonetheless,
-      it is useful for network endpoints to provide finer granularity QoS
+      it is useful for network endpoints to provide finer granularity DSCP
       marking on packets for the benefit of networks that offer QoS service
       differentiation. A specific example is that traffic originating from a
       browser may benefit from QoS service differentiation in within-building
-      and residential access networks, as those are likely bottleneck
-      locations for traffic sent to the public Internet (e.g., due to customer
-      aggregation onto common links and/or speed differences among links used
-      by the same traffic).</t>
+      and residential access networks, even if the DSCP marking is
+      subsequently removed or simplified. This is because such networks and
+      the boundaries between them are likely traffic bottleneck locations
+      (e.g., due to customer aggregation onto common links and/or speed
+      differences among links used by the same traffic).</t>
     </section>
 
     <section anchor="Examples" title="Examples">
@@ -716,21 +723,20 @@ reordered.
       because lip sync is necessary between audio and video. It may still be
       desirable to send audio with a PHB that provides better service, because
       early arrival of audio helps assure smooth audio rendering, which is
-      significantly more important than fully faithful video rendering. There
-      are limits, as some devices have difficulties in synchronizing voice and
+      often more important than fully faithful video rendering. There are also
+      limits, as some devices have difficulties in synchronizing voice and
       video when packets that need to be rendered together arrive at
       significantly different times. It makes more sense to use different PHBs
       when the audio and video source streams do not share a strict timing
-      relationship. For example, sharing H.264 video content via video-only
-      playback does not need precise synchronization with video conference
-      audio, and could use a different PHB, as shared content is more tolerant
-      to jitter, loss, and delay.</t>
-
-      <t>[Editor's Note: Paul Jones needs to check "video-only playback" in
-      the above.]</t>
+      relationship. For example, video content may be shared within a video
+      conference via playback, perhaps of an unedited video clip that is
+      intended to become part of a television advertisement. Such content
+      sharing video does not need precise synchronization with video
+      conference audio, and could use a different PHB, as content sharing
+      video is more tolerant to jitter, loss, and delay.</t>
 
       <t>Within a layered video RTP packet stream, ordering of frame
-      communication is required, but importance of frame types varies, making
+      communication is preferred, but importance of frame types varies, making
       use of PHBs with different drop precedences appropriate. For example,
       I-frames that contain an entire image are usually more important than
       P-frames that contain only changes from the previous image because loss
@@ -752,8 +758,8 @@ reordered.
       encoding is used (as required by RFC 4103). Best effort forwarding
       suffices because such real-time text has loose timing requirements; RFC
       4103 recommends sending text in chunks every 300ms. Such text is
-      technically real-time, but does not need a PHB promising differentiated
-      network treatment, in contrast to audio or video.</t>
+      technically real-time, but does not need a PHB promising better service
+      than best effort, in contrast to audio or video.</t>
 
       <!--Explain why the we can't do local network configuration of values used - where?
 
@@ -765,19 +771,34 @@ reordered.
     </section>
 
     <section anchor="Security" title="Security Considerations">
-      <t>[Editor's note: Good start, almost certainly needs more text.]</t>
-
       <t>The security considerations for all of the technologies discussed in
       this document apply; in particular see the security considerations for
-      RTP <xref target="RFC3550"/> and DiffServ <xref target="RFC2474"/> <xref
-      target="RFC2475"/>. Multiplexing of multiple protocols onto a single UDP
-      5-tuple via encapsulation has implications for network functionality
-      that is based on monitoring or inspection of individual protocol flows,
-      e.g., firewalls and traffic monitoring systems. When implementations of
-      such functionality lack visibility into encapsulated traffic (likely for
-      many current implementations), it may be difficult or impossible to
-      apply network security policy and controls at a finer grain than the
-      overall UDP 5-tuple.</t>
+      RTP in <xref target="RFC3550"/> and DiffServ in <xref target="RFC2474"/>
+      <xref target="RFC2475">and </xref>.</t>
+
+      <t>Multiplexing of multiple protocols onto a single UDP 5-tuple via
+      encapsulation has implications for network functionality that is based
+      on monitoring or inspection of individual protocol flows, e.g.,
+      firewalls and traffic monitoring systems. When implementations of such
+      functionality lack visibility into encapsulated traffic (likely for many
+      current implementations), it may be difficult or impossible to apply
+      network security policy and controls at a finer grain than the overall
+      UDP 5-tuple.</t>
+
+      <t>Use of multiple DSCPs to provide differentiated QoS service may
+      reveal information about the encrypted traffic to which different
+      service levels are provided. For example, DSCP-based identification of
+      RTP packet streams combined with packet frequency and packet size could
+      reveal the type or nature of the encrypted source streams. The IP header
+      used for forwarding has to be unencrypted for obvious reasons, and the
+      DSCP likewise has to be unencrypted in order to enable different IP
+      forwarding behaviors to be applied to different packets. The nature of
+      encrypted traffic components can be disguised via encrypted dummy data
+      padding and encrypted dummy packets, e.g., see the discussion of traffic
+      flow confidentiality in <xref target="RFC4303"/>. Encrypted dummy
+      packets could even be added in a fashion that an observer of the overall
+      encrypted traffic might mistake for another encrypted RTP packet
+      stream.</t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -816,6 +837,8 @@ reordered.
 
       &I-D.ietf-rtcweb-transports-04;
 
+      &I-D.petithuguenin-avtcore-rfc5764-mux-fixes-00;
+
       &I-D.westerlund-avtcore-transport-multiplexing-07;
 
       &RFC2475;
@@ -832,13 +855,19 @@ reordered.
 
       &RFC4103;
 
+      &RFC4303;
+
       &RFC4594;
+
+      &RFC5109;
 
       &RFC5127;
 
       &RFC5129;
 
       &RFC5462;
+
+      &RFC5764;
 
       &RFC6437;
 
@@ -857,16 +886,19 @@ reordered.
           <t>Initial terminology alignment with RTP grouping taxonomy
           draft.</t>
 
-          <t>Added section on real-time communication interaction w/reordering
-          based on text from Harald Alvestrand.</t>
+          <t>Added Section 2.5 on real-time communication interaction
+          w/reordering based on text from Harald Alvestrand.</t>
 
-          <t>Strengthen warnings on loss of differentiation, but indicate that
-          differentiation may still be useful from source to point of loss.
-          Add a couple of related sentences on DiffServ and MPLS. Add
-          discussion of UDP-encapsulated protocols that are reordering
-          sensitive.</t>
+          <t>Strengthened warnings on loss of differentiation, but indicate
+          that differentiation may still be useful from source to point of
+          loss.</t>
 
-          <t>First version of security considerations, more to come.</t>
+          <t>Added a few sentences on DiffServ and MPLS.</t>
+
+          <t>Added discussion of UDP-encapsulated protocols that are
+          reordering sensitive.</t>
+
+          <t>Added initial security considerations.</t>
 
           <t>Many editorial changes</t>
         </list></t>
