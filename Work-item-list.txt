@@ -1,7 +1,3 @@
 -- List of things that need attention in the dart-dscp-rtp draft.
 
 See [Editor's note: ] items in draft.
-
-
-
-
